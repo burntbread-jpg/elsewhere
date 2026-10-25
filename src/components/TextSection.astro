@@ -1,5 +1,7 @@
 ---
 interface Props { title?: string }
 const {title}=Astro.props;
+// "01 — 도착" titles hang their chapter number in the margin.
+const chapter=title?.match(/^(\d+)\s*[—–-]\s*(.+)$/);
 ---
-<section class="reading text-section">{title&&<h2>{title}</h2>}<slot/></section>
+<section class="reading text-section">{title&&(chapter?<h2 class="chapter"><span class="chapter-no" aria-hidden="true">{chapter[1]}</span><span class="sr-only">{chapter[1]} — </span>{chapter[2]}</h2>:<h2>{title}</h2>)}<slot/></section>

@@ -14,6 +14,8 @@
 
 - 후속 사용자 요청: 홈 첫 화면을 3D 지구본으로 교체하고 표면 클릭 시 해당 지점으로 확대. 지리 좌표 기반 예시 사진 마커를 추가했습니다. 상세 동작과 실제 사진 연결 방법은 `GLOBE.md` 참고.
 
+- 후속 사용자 요청: Awwwards·CSSDA·FWA 수준의 감도 향상. Awwwards 에디토리얼 계열과 CSSDA 타이포그래피를 채택하고, FWA의 무거운 WebGL 실험은 명세와 충돌해 제외했습니다. 새 의존성 없이 CSS 레이어(`editorial.css`)와 네이티브 View Transitions로 구현했습니다. 상세 내용은 `DESIGN_SYSTEM.md` 참고.
+
 - Phase 0/1을 우선하며 Phase 2의 배포 설정과 공개 검사도 준비합니다.
 - Astro 5 안정 버전 계열, MDX 4, Tailwind 4 및 TypeScript. 정확한 설치 버전은 잠금 파일을 기준으로 합니다.
 - 정적 페이지, native dialog 라이트박스. React/GSAP/외부 지도·AI는 도입하지 않습니다.

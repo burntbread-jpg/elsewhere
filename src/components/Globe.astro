@@ -5,7 +5,7 @@ import '../styles/globe.css';
 const pins=[{id:'water',label:'제주 · 배치 예시',lat:33.5,lng:126.5,image:coast.src,href:'/journal/sample-trip-01/',title:'고요를 따라, 물가의 오후'},{id:'mountain',label:'서울 · 배치 예시',lat:37.57,lng:126.98,image:mountain.src,href:'/journal/sample-trip-02/',title:'겹겹의 산, 느린 빛'}];
 ---
 <section class="globe-hero shell" aria-labelledby="globe-heading">
- <div class="globe-copy"><p class="eyebrow">AN ATLAS OF LITTLE MOMENTS</p><h1 id="globe-heading">세상 어딘가,<br/>우리의 장면.</h1><p class="globe-description">지구를 돌려, 기억이 머문 곳으로.<br/>한 곳을 누르면 더 가까이 다가갑니다.</p><a class="browse-stories" href="#selected-stories">기록 펼쳐 보기 ↓</a></div>
+ <div class="globe-copy"><p class="eyebrow">AN ATLAS OF LITTLE MOMENTS</p><h1 id="globe-heading">세상 어딘가, <br/>우리의 장면.</h1><p class="globe-description">지구를 돌려, 기억이 머문 곳으로.<br/>한 곳을 누르면 더 가까이 다가갑니다.</p><a class="browse-stories" href="#selected-stories">기록 펼쳐 보기 ↓</a></div>
  <div class="globe-explorer" data-pins={JSON.stringify(pins)}>
   <div class="globe-stage" aria-label="드래그로 회전하고 클릭으로 지역을 확대하는 3D 지구본"><div class="globe-fallback"><span>THE PLACES WE CARRY</span><p>지구본을 준비하고 있습니다.</p></div><div class="globe-markers"></div></div>
   <div class="globe-toolbar"><span class="eyebrow">EXPLORE THE EARTH</span><div><button data-globe-zoom="in" aria-label="지구본 확대">＋</button><button data-globe-zoom="out" aria-label="지구본 축소">−</button><button data-globe-reset>전체 보기 ↗</button></div></div>

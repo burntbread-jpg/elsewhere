@@ -1,5 +1,5 @@
 ---
-import Base from '../layouts/Base.astro';import {publicTrips,dateLabel} from '../lib/trips';
+import Base from '../layouts/Base.astro';import {publicTrips,dateLabel} from '../lib/trips';import { Image } from 'astro:assets';
 const trips=await publicTrips();const years=[...new Set(trips.map(t=>t.data.tripStart.getFullYear()))];
 ---
-<Base title="Archive"><div class="shell"><header class="page-heading"><p class="eyebrow">A CHRONOLOGY</p><h1>차곡차곡, 여행의 시간.</h1><p>여행이 시작된 날을 기준으로 모았습니다.</p></header>{years.map(year=><section class="archive-year"><h2>{year}</h2><div>{trips.filter(t=>t.data.tripStart.getFullYear()===year).map(t=><a class="archive-row" href={`/journal/${t.id}/`}><span>{dateLabel(t.data.tripStart)}</span><h3>{t.data.title}</h3><span>{t.data.regions.join(' · ')} ↗</span></a>)}</div></section>)}</div></Base>
+<Base title="Archive"><div class="shell"><header class="page-heading"><p class="eyebrow">A CHRONOLOGY</p><h1>차곡차곡, 여행의 시간.</h1><p>여행이 시작된 날을 기준으로 모았습니다.</p></header>{years.map(year=><section class="archive-year"><h2>{year}</h2><div>{trips.filter(t=>t.data.tripStart.getFullYear()===year).map(t=><a class="archive-row" href={`/journal/${t.id}/`}><span>{dateLabel(t.data.tripStart)}</span><h3>{t.data.title}</h3><span>{t.data.regions.join(' · ')} ↗</span><Image class="archive-peek" src={t.data.cover} alt="" widths={[320,480]} sizes="240px" format="webp" loading="lazy"/></a>)}</div></section>)}</div></Base>
