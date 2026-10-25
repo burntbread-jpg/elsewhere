@@ -1,15 +1,14 @@
-/* Photobook is the site default; preview URLs can override the family. */
+/* Photobook typography (Noto Serif KR / Pretendard / Manrope), chosen after the type comparison. */
 html[data-typography]{--preview-body:'Pretendard Variable',sans-serif;--preview-heading:'Pretendard Variable',sans-serif;--preview-latin:'Manrope',sans-serif;--preview-meta:'Manrope','Pretendard Variable',sans-serif}
-html[data-typography="atlas"]{--preview-body:'IBM Plex Sans KR',sans-serif;--preview-heading:'IBM Plex Sans KR',sans-serif;--preview-latin:'IBM Plex Sans',sans-serif;--preview-meta:'IBM Plex Mono','IBM Plex Sans KR',sans-serif}
 html[data-typography="photobook"]{--preview-heading:'Noto Serif KR',serif}
 html[data-typography] body{font-family:var(--preview-body);font-weight:400}
 html[data-typography] :is(h1,h2,h3,.intro){font-family:var(--preview-heading);font-weight:500;font-style:normal;letter-spacing:-.035em}
 html[data-typography] .wordmark{font-family:var(--preview-latin);font-size:25px;font-weight:500;letter-spacing:.055em}
-html[data-typography] :is(.desktop-nav,.eyebrow,.hero-label){font-family:var(--preview-latin),var(--preview-body);font-size:12px;letter-spacing:.13em}
+html[data-typography] :is(.desktop-nav,.eyebrow){font-family:var(--preview-latin),var(--preview-body);font-size:12px;letter-spacing:.13em}
 html[data-typography] .desktop-nav{font-weight:500}
 html[data-typography] :is(.meta,.archive-row>span,.globe-toolbar>.eyebrow){font-family:var(--preview-meta);font-size:12px;color:#595b53;letter-spacing:.025em}
 html[data-typography] :is(.globe-copy .eyebrow,.globe-copy .globe-description,.globe-help,.globe-demo,.globe-selection .eyebrow,.globe-destinations button,.globe-selection [role=status],.browse-stories){font-size:12px;color:#595b53}
-html[data-typography] :is(.subtle,.story-heading>.subtle,.home-heading .subtle){font-family:var(--preview-body);font-style:normal;font-size:16px}
+html[data-typography] :is(.subtle,.story-heading>.subtle){font-family:var(--preview-body);font-style:normal;font-size:16px}
 html[data-typography] :is(.story-card h2,.text-section h2){font-size:26px;line-height:1.6}
 html[data-typography] .intro{font-family:var(--preview-body);font-size:21px;font-weight:400;line-height:1.9}
 html[data-typography] .text-section{font-size:17px;line-height:1.9}
