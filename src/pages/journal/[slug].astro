@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import {publicTrips,dateLabel} from '../../lib/trips';
+import {render} from 'astro:content';
+export async function getStaticPaths(){return (await publicTrips()).map(trip=>({params:{slug:trip.id},props:{trip}}));}
+const {trip}=Astro.props;const {Content}=await render(trip);const all=await publicTrips();const related=all.filter(t=>t.id!==trip.id);
+---
+<Base title={trip.data.title} description={trip.data.summary}><article class="story"><header class="shell story-heading"><p class="eyebrow">{trip.data.country} / {trip.data.tripStart.getFullYear()} / TRAVEL JOURNAL</p><h1>{trip.data.title}</h1><p class="subtle">{trip.data.subtitle}</p><p class="meta">{dateLabel(trip.data.tripStart)} — {dateLabel(trip.data.tripEnd)} · {trip.data.regions.join(' · ')}</p>{trip.data.sample&&<p class="sample-note">샘플 여행기 · 날짜와 장소는 예시이며 이미지는 직접 제작한 풍경 일러스트입니다. 실제 방문 경험을 서술하지 않습니다.</p>}</header><div class="shell"><Photo src={trip.data.cover} alt={trip.data.coverAlt} priority/></div><div class="story-body"><Content/></div><section class="reading story-end"><p class="eyebrow">END OF JOURNEY</p><a href="/journal/">← 여행기 목록</a>{related.map(t=><a href={`/journal/${t.id}/`}>다음 기록: {t.data.title} ↗</a>)}</section></article></Base>

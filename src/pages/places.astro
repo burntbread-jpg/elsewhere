@@ -1,0 +1,5 @@
+---
+import Base from '../layouts/Base.astro';import {publicTrips} from '../lib/trips';
+const trips=await publicTrips();const places=[...new Set(trips.flatMap(t=>t.data.regions))];
+---
+<Base title="Places"><div class="shell"><header class="page-heading"><p class="eyebrow">VISITED PLACES</p><h1>장소에서 시작하는 기록.</h1><p>사진이 남겨 둔 작은 좌표들. 현재는 예시 장소입니다.</p></header><div class="place-list">{places.map((place,i)=><section><span class="eyebrow">0{i+1}</span><h2>{place}</h2><div>{trips.filter(t=>t.data.regions.includes(place)).map(t=><a href={`/journal/${t.id}/`}>{t.data.title} ↗</a>)}</div></section>)}</div></div></Base>

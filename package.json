@@ -1,0 +1,23 @@
+{
+  "name": "elsewhere-travel-archive",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "check": "astro check",
+    "build": "node tools/checks/publication.mjs && astro build",
+    "preview": "astro preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "astro": "^5.16.0",
+    "@astrojs/mdx": "^4.3.0",
+    "tailwindcss": "^4.1.0",
+    "@tailwindcss/vite": "^4.1.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.5",
+    "typescript": "^5.9.0"
+  },
+  "packageManager": "pnpm@11.25.0"
+}

@@ -1,0 +1,14 @@
+<dialog id="lightbox" aria-label="사진 크게 보기"><div class="viewer-top"><span id="photo-count" aria-live="polite"></span><button id="close-photo" aria-label="사진 닫기">닫기 ×</button></div><button id="previous-photo" class="photo-prev" aria-label="이전 사진">←</button><figure><img id="large-photo" alt=""/><figcaption id="photo-caption"></figcaption></figure><button id="next-photo" class="photo-next" aria-label="다음 사진">→</button></dialog>
+<script>
+ const dialog=document.querySelector<HTMLDialogElement>('#lightbox')!;
+ const photos=Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-photo]'));
+ const image=document.querySelector<HTMLImageElement>('#large-photo')!;
+ let index=0; let opener: HTMLAnchorElement|undefined; let oldOverflow='';
+ function show(next:number){index=(next+photos.length)%photos.length;const p=photos[index]; image.src=p.href;image.alt=p.querySelector('img')?.alt||'';document.querySelector('#photo-caption')!.textContent=p.dataset.caption||'';document.querySelector('#photo-count')!.textContent=`${index+1} / ${photos.length}`;}
+ photos.forEach((p,i)=>p.addEventListener('click',e=>{e.preventDefault();opener=p;show(i);oldOverflow=document.body.style.overflow;document.body.style.overflow='hidden';dialog.showModal();}));
+ document.querySelector('#close-photo')!.addEventListener('click',()=>dialog.close());
+ document.querySelector('#previous-photo')!.addEventListener('click',()=>show(index-1));document.querySelector('#next-photo')!.addEventListener('click',()=>show(index+1));
+ dialog.addEventListener('close',()=>{document.body.style.overflow=oldOverflow;opener?.focus();});
+ dialog.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();show(index-1);}if(e.key==='ArrowRight'){e.preventDefault();show(index+1);}});
+ let start=0;dialog.addEventListener('touchstart',e=>{start=e.changedTouches[0].clientX;},{passive:true});dialog.addEventListener('touchend',e=>{const delta=e.changedTouches[0].clientX-start;if(Math.abs(delta)>60)show(index+(delta<0?1:-1));},{passive:true});
+</script>

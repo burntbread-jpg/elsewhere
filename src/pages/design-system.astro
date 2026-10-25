@@ -1,0 +1,4 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Design system"><div class="shell page-heading"><p class="eyebrow">DESIGN STUDY / 01</p><h1>조용한 페이지의 기준.</h1><p>종이의 온기, 잉크의 명료함, 사진 사이의 여백.</p><div class="swatches">{['paper','linen','taupe','olive','ink','caption'].map(c=><div style={`background:var(--color-${c});color:${['olive','ink','caption'].includes(c)?'#fff':'#24231f'}`}>{c}</div>)}</div><h2>사진 사이에 남겨 둔 문장</h2><p class="reading">본문은 17px, 넉넉한 행간과 최대 680px의 읽기 폭을 사용합니다. 키보드 탐색과 모션 줄이기 설정을 지원합니다.</p></div></Base>

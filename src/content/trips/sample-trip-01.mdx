@@ -1,0 +1,38 @@
+---
+title: "고요를 따라, 물가의 오후"
+subtitle: "Where the water holds the light"
+status: published
+visibility: public
+tripStart: "2026-10-01"
+tripEnd: "2026-10-03"
+country: KR
+regions: ["물가의 풍경 (예시)"]
+summary: "빛과 여백으로 구성한 첫 번째 사진 에세이 예시."
+cover: "../../assets/trips/scene-1.webp"
+coverAlt: "옅은 산과 물빛을 겹쳐 표현한 풍경 일러스트"
+featured: true
+sample: true
+tags: [quiet, water]
+---
+import StoryIntro from '../../components/StoryIntro.astro';
+import TextSection from '../../components/TextSection.astro';
+import ImageSingle from '../../components/ImageSingle.astro';
+import ImagePair from '../../components/ImagePair.astro';
+import ImageFullBleed from '../../components/ImageFullBleed.astro';
+import first from '../../assets/trips/scene-1.webp';
+import second from '../../assets/trips/scene-2.webp';
+import third from '../../assets/trips/scene-3.webp';
+
+<StoryIntro>사진 사이에 문장을 놓고, 문장 뒤에 잠시 여백을 남깁니다. 이 페이지는 여행의 기억을 담게 될 공간의 예시입니다.</StoryIntro>
+<TextSection title="01 — 한 장면의 시작">
+지금 보이는 풍경은 직접 제작한 임시 일러스트입니다. 실제 여행의 날짜, 방문 장소, 기억은 아직 담지 않았습니다. 공개할 사진을 고른 뒤 그 장면에 관한 메모를 여기에 놓을 수 있습니다.
+</TextSection>
+<ImageSingle src={first} alt="산 사이의 물과 밝은 모래를 표현한 일러스트" caption="단일 이미지 블록 · 디자인 예시"/>
+<TextSection title="02 — 나란히 바라보기">
+두 장의 이미지를 나란히 두면 비슷한 빛이나 서로 다른 시선을 비교할 수 있습니다. 사진의 순서는 사용자가 정하고, 캡션에는 확인된 내용만 적습니다.
+</TextSection>
+<ImagePair left={second} leftAlt="따뜻한 색의 산과 물 일러스트" right={third} rightAlt="차가운 청록색 풍경 일러스트"/>
+<ImageFullBleed src={third} alt="넓은 물가와 먼 산이 겹쳐진 일러스트" caption="전체 너비 이미지 블록 · 디자인 예시"/>
+<TextSection title="03 — 다음 페이지를 위해">
+이곳에는 직접 쓴 여행의 마지막 문장을 담습니다. 사진이 충분히 말하는 장면에는 짧은 문장만 남겨도 좋습니다.
+</TextSection>

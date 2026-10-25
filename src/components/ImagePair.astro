@@ -1,0 +1,6 @@
+---
+import Photo from './Photo.astro';
+import type { ImageMetadata } from 'astro';
+interface Props { left: ImageMetadata; right: ImageMetadata; leftAlt: string; rightAlt: string }
+---
+<div class="image-pair"><Photo src={Astro.props.left} alt={Astro.props.leftAlt}/><Photo src={Astro.props.right} alt={Astro.props.rightAlt}/></div>

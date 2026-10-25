@@ -1,0 +1,7 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+interface Props { trip: CollectionEntry<'trips'>; index?: number }
+const {trip,index=0}=Astro.props;
+---
+<article class:list={['story-card',index%2?'landscape':'portrait']} data-story data-year={trip.data.tripStart.getFullYear()} data-place={trip.data.regions[0]}><a href={`/journal/${trip.id}/`}><div class="cover"><Image src={trip.data.cover} alt={trip.data.coverAlt} widths={[480,800,1200]} sizes="(max-width: 767px) 100vw, 50vw" format="webp" loading="lazy"/></div><div class="meta">{trip.data.tripStart.getFullYear()} / {trip.data.regions.join(' · ')} <span>↗</span></div><h2>{trip.data.title}</h2><p>{trip.data.summary}</p>{trip.data.sample&&<small>레이아웃 예시 · 실제 여행 기록 아님</small>}</a></article>

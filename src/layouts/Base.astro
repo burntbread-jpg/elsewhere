@@ -1,0 +1,12 @@
+---
+import '../styles/global.css';
+import Lightbox from '../components/Lightbox.astro';
+interface Props { title?: string; description?: string }
+const { title = 'The Places We Carry', description = '사진과 문장으로 남기는 여행의 아카이브, ELSEWHERE.' } = Astro.props;
+const links = [['/journal','JOURNAL'],['/places','PLACES'],['/archive','ARCHIVE'],['/about','ABOUT']];
+---
+<!doctype html><html lang="ko"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><meta name="description" content={description}/><meta property="og:title" content={`${title} — ELSEWHERE.`}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta name="theme-color" content="#F6F3ED"/><link rel="icon" href="/favicon.svg"/><title>{title} — ELSEWHERE.</title></head><body>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<header class="shell site-header"><a class="wordmark" href="/" aria-label="ELSEWHERE 홈">ELSEWHERE<span>.</span></a><nav class="desktop-nav" aria-label="주 메뉴">{links.map(([url,label])=><a href={url} aria-current={Astro.url.pathname.startsWith(url)?'page':undefined}>{label}</a>)}</nav><details class="mobile-nav"><summary>메뉴</summary><nav aria-label="모바일 메뉴">{links.map(([url,label])=><a href={url}>{label}</a>)}</nav></details></header>
+<main id="main"><slot/></main><footer class="shell site-footer"><a class="wordmark" href="/">ELSEWHERE.</a><p>머물렀던 곳, 오래 남을 장면들.</p><span>© {new Date().getFullYear()} ELSEWHERE.</span></footer><Lightbox/>
+</body></html>

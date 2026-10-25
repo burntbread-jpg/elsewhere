@@ -1,0 +1,8 @@
+---
+import Base from '../layouts/Base.astro';
+import {Image} from 'astro:assets';
+import StoryCard from '../components/StoryCard.astro';
+import {publicTrips} from '../lib/trips';
+const trips=await publicTrips();const featured=trips.find(t=>t.data.featured)||trips[0];
+---
+<Base><div class="shell"><section class="home-heading"><p class="eyebrow">THE PLACES WE CARRY</p><h1>우리가 머물렀던 계절</h1><p class="subtle">A personal collection of places, light & little moments.</p></section>{featured&&<a class="hero" href={`/journal/${featured.id}/`}><Image src={featured.data.cover} alt={featured.data.coverAlt} widths={[640,1200,1800]} sizes="90vw" format="webp" loading="eager" fetchpriority="high"/><div class="hero-label"><span>VOL. 001 / TRAVEL JOURNAL</span><span>{featured.data.title} ↗</span></div></a>}<p class="home-intro">여행은 지나가지만, 어떤 장면은 오래 남습니다.<br/>사진과 짧은 문장으로 그곳의 시간을 모읍니다.</p><section><div class="section-heading"><h2 class="eyebrow">SELECTED STORIES</h2><a href="/journal/">모든 여행기 보기 ↗</a></div><div class="editorial-grid">{trips.map((trip,index)=><StoryCard trip={trip} index={index}/>)}</div></section><section class="places-teaser"><p class="eyebrow">A MAP OF MEMORIES</p><h2>다시 펼쳐 보고 싶은 곳들.</h2><a href="/places/">장소로 찾아보기 ↗</a><p class="subtle">현재 콘텐츠는 디자인 확인용 예시입니다.</p></section></div></Base>
