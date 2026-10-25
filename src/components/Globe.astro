@@ -1,0 +1,20 @@
+---
+import coast from '../assets/trips/scene-1.webp';
+import mountain from '../assets/trips/scene-2.webp';
+import '../styles/globe.css';
+const pins=[{id:'water',label:'제주 · 배치 예시',lat:33.5,lng:126.5,image:coast.src,href:'/journal/sample-trip-01/',title:'고요를 따라, 물가의 오후'},{id:'mountain',label:'서울 · 배치 예시',lat:37.57,lng:126.98,image:mountain.src,href:'/journal/sample-trip-02/',title:'겹겹의 산, 느린 빛'}];
+---
+<section class="globe-hero shell" aria-labelledby="globe-heading">
+ <div class="globe-copy"><p class="eyebrow">AN ATLAS OF LITTLE MOMENTS</p><h1 id="globe-heading">세상 어딘가,<br/>우리의 장면.</h1><p class="globe-description">지구를 돌려, 기억이 머문 곳으로.<br/>한 곳을 누르면 더 가까이 다가갑니다.</p><a class="browse-stories" href="#selected-stories">기록 펼쳐 보기 ↓</a></div>
+ <div class="globe-explorer" data-pins={JSON.stringify(pins)}>
+  <div class="globe-stage" aria-label="드래그로 회전하고 클릭으로 지역을 확대하는 3D 지구본"><div class="globe-fallback"><span>THE PLACES WE CARRY</span><p>지구본을 준비하고 있습니다.</p></div><div class="globe-markers"></div></div>
+  <div class="globe-toolbar"><span class="eyebrow">EXPLORE THE EARTH</span><div><button data-globe-zoom="in" aria-label="지구본 확대">＋</button><button data-globe-zoom="out" aria-label="지구본 축소">−</button><button data-globe-reset>전체 보기 ↗</button></div></div>
+  <p class="globe-help">드래그하여 회전 · 지역을 눌러 확대 · 두 손가락으로 확대</p>
+ </div>
+ <div class="globe-selection"><div><p class="eyebrow">A PLACE IN FOCUS</p><p data-globe-status role="status">지구본에서 마음이 가는 곳을 골라 보세요.</p></div><div class="globe-destinations" aria-label="예시 사진 위치">{pins.map(pin=><button data-globe-pin={pin.id}><span>{pin.label}</span><span>↗</span></button>)}</div><p class="globe-demo">현재 사진과 좌표는 배치 예시입니다. 실제 여행 위치는 승인된 좌표로 연결됩니다.</p></div>
+</section>
+<script>
+ import { initGlobe } from '../scripts/globe';
+ const root=document.querySelector<HTMLElement>('.globe-explorer');
+ if(root) initGlobe(root).catch(()=>{const fallback=root.querySelector<HTMLElement>('.globe-fallback');if(fallback){fallback.hidden=false;fallback.querySelector('p')!.textContent='이 환경에서는 3D 지구본을 표시할 수 없습니다. 아래 여행기에서 기록을 만나 보세요.';}});
+</script>
