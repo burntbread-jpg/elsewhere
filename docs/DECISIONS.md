@@ -21,6 +21,9 @@
 
 ## 외부 연결 및 후속 작업
 
+- GitHub 인증 후 main 업로드 완료. Vercel `burntbread/elsewhere-travel-archive` 연결 및 Production 배포 확인. 공개 주소: https://elsewhere-travel-archive.vercel.app/
+- Linux 패키지 격리 환경에서 Sharp 누락이 드러나 직접 의존성으로 추가했고, GitHub Actions와 Vercel에서 모두 재검증 성공했습니다.
+
 - 사용자가 `https://github.com/burntbread-jpg/elsewhere.git`를 지정하고 공개 저장소로 진행하도록 명시 승인했습니다. 명세의 비공개 저장소 기본값을 이 결정으로 대체합니다. 개인 원본·비공개 원고 제외 원칙은 유지합니다.
 
 - 연결된 GitHub에서 접근 가능한 저장소 목록이 비어 있었습니다. 원격 저장소 URL·권한 및 Vercel 계정 연결은 미확정입니다.

@@ -2,6 +2,9 @@
 
 ## 통과
 
+- GitHub Linux 러너: 의존성 설치, 타입 검사, 공개 소스 검사, 이미지 최적화 포함 정적 빌드 전체 성공 (`70ee320`, run 40156528055).
+- Vercel Production Ready 및 공개 홈/여행기 상세 브라우저 확인: https://elsewhere-travel-archive.vercel.app/
+
 - 명세 원본/복사본 SHA-256 동일.
 - Astro check: 22개 파일, 오류 0, 경고 0, 힌트 0. 이미지 블록 타입 선언 오류 2건 수정 후 재검증.
 - 정적 빌드: 9개 페이지, 반응형 이미지 17개 변형 생성.
@@ -18,5 +21,5 @@
 - 실제 사진 대신 자체 제작 일러스트로 레이아웃을 검증했습니다. 실사진 색감·크롭·장문 서사는 별도 확인 필요.
 - iOS Safari, Edge 실기기, 실제 터치 스와이프, 자동 접근성 감사 및 Lighthouse 성능 수치는 측정하지 않았습니다.
 - 개인정보 검사는 패턴 기반 보조 검사입니다. 얼굴·저작권·화면 속 글자·비밀정보 전체를 보장하지 않습니다.
-- GitHub 원격/Actions 실행 및 Vercel Preview/Production 배포는 계정 연결 후 확인해야 합니다. 배포 URL 검증 완료로 보고하지 않습니다.
+- 별도 PR Preview 배포는 아직 검수하지 않았습니다. main 자동 Production 배포는 확인했습니다.
 - 임시 Astro 전역 설정 쓰기 제한은 검증 세션의 `ASTRO_TELEMETRY_DISABLED=1`로 처리했습니다. Windows 패키지 링크 생성에는 샌드박스 밖 설치 실행이 필요했습니다.
