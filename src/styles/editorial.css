@@ -136,3 +136,20 @@ html[data-typography] .site-footer .footer-note{font-family:var(--preview-headin
  .site-footer .footer-mark{margin-top:64px}
  .footer-bottom{flex-direction:column;gap:8px;padding-block:20px 28px}
 }
+
+/* Continent index — a quiet row of catalogue links, in the same voice as the header nav. */
+.continent-index{display:flex;flex-wrap:wrap;gap:8px 36px;margin:0 0 28px;font:500 11px/1 var(--font-index);letter-spacing:.16em}
+.continent-index a{position:relative;display:inline-flex;align-items:baseline;gap:6px;padding-block:14px;color:var(--color-caption);transition:color 300ms}
+.continent-index sup{font-size:8px;letter-spacing:.05em;vertical-align:0}
+.continent-index a:after{content:'';position:absolute;left:0;right:0;bottom:8px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform 450ms var(--ease-out)}
+.continent-index a[aria-current]{color:var(--color-ink)}
+.continent-index a[aria-current]:after{transform:scaleX(1)}
+@media(hover:hover){.continent-index a:hover{color:var(--color-ink)}.continent-index a:hover:after{transform:scaleX(1);transform-origin:left}}
+.page-heading .continent-index{margin:36px 0 0}
+.continent-group{margin-bottom:72px;scroll-margin-top:110px}
+html[data-typography] .continent-heading{font:400 clamp(40px,5vw,72px)/1 var(--font-index);letter-spacing:-.05em;margin:0 0 28px}
+.place-list h3{font-size:28px;margin:0}
+
+/* Long-form essays read as indented paragraphs, like the author's own manuscripts. */
+.text-section p{margin-bottom:0}
+.text-section p+p{text-indent:1em;margin-top:.35em}

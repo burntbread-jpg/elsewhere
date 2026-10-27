@@ -1,8 +1,11 @@
 ---
-import coast from '../assets/trips/scene-1.webp';
-import mountain from '../assets/trips/scene-2.webp';
+import { getImage } from 'astro:assets';
+import { publicTrips } from '../lib/trips';
 import '../styles/globe.css';
-const pins=[{id:'water',label:'제주 · 배치 예시',lat:33.5,lng:126.5,image:coast.src,href:'/journal/sample-trip-01/',title:'고요를 따라, 물가의 오후'},{id:'mountain',label:'서울 · 배치 예시',lat:37.57,lng:126.98,image:mountain.src,href:'/journal/sample-trip-02/',title:'겹겹의 산, 느린 빛'}];
+// One pin per journey with coordinates; thumbnails are small renditions, never the originals.
+const trips=(await publicTrips()).filter(t=>t.data.pin);
+const demo=trips.some(t=>t.data.sample);
+const pins=await Promise.all(trips.map(async t=>({id:t.id,label:t.data.regions[0],lat:t.data.pin!.lat,lng:t.data.pin!.lng,image:(await getImage({src:t.data.cover,width:240,format:'webp'})).src,href:`/journal/${t.id}/`,title:t.data.title})));
 ---
 <section class="globe-hero shell" aria-labelledby="globe-heading">
  <div class="globe-copy"><p class="eyebrow">AN ATLAS OF LITTLE MOMENTS</p><h1 id="globe-heading">세상 어딘가, <br/>우리의 장면.</h1><p class="globe-description">지구를 돌려, 기억이 머문 곳으로.<br/>한 곳을 누르면 더 가까이 다가갑니다.</p><a class="browse-stories" href="#selected-stories">기록 펼쳐 보기 ↓</a></div>
@@ -11,7 +14,7 @@ const pins=[{id:'water',label:'제주 · 배치 예시',lat:33.5,lng:126.5,image
   <div class="globe-toolbar"><span class="eyebrow">EXPLORE THE EARTH</span><div><button data-globe-zoom="in" aria-label="지구본 확대">＋</button><button data-globe-zoom="out" aria-label="지구본 축소">−</button><button data-globe-reset>전체 보기 ↗</button></div></div>
   <p class="globe-help">드래그하여 회전 · 지역을 눌러 확대 · 두 손가락으로 확대</p>
  </div>
- <div class="globe-selection"><div><p class="eyebrow">A PLACE IN FOCUS</p><p data-globe-status role="status">지구본에서 마음이 가는 곳을 골라 보세요.</p></div><div class="globe-destinations" aria-label="예시 사진 위치">{pins.map(pin=><button data-globe-pin={pin.id}><span>{pin.label}</span><span>↗</span></button>)}</div><p class="globe-demo">현재 사진과 좌표는 배치 예시입니다. 실제 여행 위치는 승인된 좌표로 연결됩니다.</p></div>
+ <div class="globe-selection"><div><p class="eyebrow">A PLACE IN FOCUS</p><p data-globe-status role="status">지구본에서 마음이 가는 곳을 골라 보세요.</p></div><div class="globe-destinations" aria-label="여행 위치">{pins.map(pin=><button data-globe-pin={pin.id}><span>{pin.label}</span><span>↗</span></button>)}</div><p class="globe-demo">{demo?'현재 사진과 좌표는 배치 예시입니다. 실제 여행 위치는 승인된 좌표로 연결됩니다.':'위치는 도시·지역 단위로만 표시합니다.'}</p></div>
 </section>
 <script>
  import { initGlobe } from '../scripts/globe';

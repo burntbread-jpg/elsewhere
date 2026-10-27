@@ -1,7 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import { continentSlug } from '../lib/trips';
 interface Props { trip: CollectionEntry<'trips'>; index?: number }
 const {trip,index=0}=Astro.props;
 ---
-<article class:list={['story-card',index%2?'landscape':'portrait']} data-story data-year={trip.data.tripStart.getFullYear()} data-place={trip.data.regions[0]}><a href={`/journal/${trip.id}/`}><div class="cover" style={`view-transition-name:cover-${trip.id}`}><Image src={trip.data.cover} alt={trip.data.coverAlt} widths={[480,800,1200]} sizes="(max-width: 767px) 100vw, 50vw" format="webp" loading="lazy"/><span class="cover-cue" aria-hidden="true">READ ↗</span></div><div class="meta"><span class="card-no">{String(index+1).padStart(2,'0')}</span><span>{trip.data.tripStart.getFullYear()} / {trip.data.regions.join(' · ')}</span></div><h2>{trip.data.title}</h2><p>{trip.data.summary}</p>{trip.data.sample&&<small>레이아웃 예시 · 실제 여행 기록 아님</small>}</a></article>
+<article class:list={['story-card',index%2?'landscape':'portrait']} data-story data-year={trip.data.tripStart.getFullYear()} data-place={trip.data.regions[0]} data-continent={continentSlug(trip.data.continent)}><a href={`/journal/${trip.id}/`}><div class="cover" style={`view-transition-name:cover-${trip.id}`}><Image src={trip.data.cover} alt={trip.data.coverAlt} widths={[480,800,1200]} sizes="(max-width: 767px) 100vw, 50vw" format="webp" loading="lazy"/><span class="cover-cue" aria-hidden="true">READ ↗</span></div><div class="meta"><span class="card-no">{String(index+1).padStart(2,'0')}</span><span>{trip.data.tripStart.getFullYear()} / {trip.data.regions.join(' · ')}</span></div><h2>{trip.data.title}</h2><p>{trip.data.summary}</p>{trip.data.sample&&<small>레이아웃 예시 · 실제 여행 기록 아님</small>}</a></article>

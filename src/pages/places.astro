@@ -1,5 +1,7 @@
 ---
-import Base from '../layouts/Base.astro';import {publicTrips} from '../lib/trips';
-const trips=await publicTrips();const places=[...new Set(trips.flatMap(t=>t.data.regions))];
+import Base from '../layouts/Base.astro';import {publicTrips,CONTINENTS,continentSlug} from '../lib/trips';
+const trips=await publicTrips();const sample=trips.some(t=>t.data.sample);
+// Places are grouped under their continent; numbering runs through the whole list.
+let n=0;const groups=CONTINENTS.map(name=>({name,slug:continentSlug(name),places:[...new Set(trips.filter(t=>t.data.continent===name).flatMap(t=>t.data.regions))].map(place=>({place,no:String(++n).padStart(2,'0')}))})).filter(g=>g.places.length);
 ---
-<Base title="Places"><div class="shell"><header class="page-heading"><p class="eyebrow">VISITED PLACES</p><h1>장소에서 시작하는 기록.</h1><p>사진이 남겨 둔 작은 좌표들. 현재는 예시 장소입니다.</p></header><div class="place-list">{places.map((place,i)=><section><span class="eyebrow">0{i+1}</span><h2>{place}</h2><div>{trips.filter(t=>t.data.regions.includes(place)).map(t=><a href={`/journal/${t.id}/`}>{t.data.title} ↗</a>)}</div></section>)}</div></div></Base>
+<Base title="Places"><div class="shell"><header class="page-heading"><p class="eyebrow">VISITED PLACES</p><h1>장소에서 시작하는 기록.</h1><p>사진이 남겨 둔 작은 좌표들.{sample&&' 현재는 예시 장소입니다.'}</p><nav class="continent-index" aria-label="대륙으로 이동">{groups.map(g=><a href={`#${g.slug}`}>{g.name}<sup>{String(g.places.length).padStart(2,'0')}</sup></a>)}</nav></header>{groups.map(g=><section class="continent-group" id={g.slug} aria-labelledby={`${g.slug}-heading`}><h2 class="continent-heading" id={`${g.slug}-heading`}>{g.name}</h2><div class="place-list">{g.places.map(({place,no})=><section><span class="eyebrow">{no}</span><h3>{place}</h3><div>{trips.filter(t=>t.data.regions.includes(place)).map(t=><a href={`/journal/${t.id}/`}>{t.data.title} ↗</a>)}</div></section>)}</div></section>)}</div></Base>
