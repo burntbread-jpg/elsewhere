@@ -7,6 +7,7 @@
    - `continent`: ASIA · EUROPE · AFRICA · NORTH AMERICA · SOUTH AMERICA · OCEANIA 중 하나. Journal의 대륙 보기와 Places의 대륙 묶음에 쓰입니다.
    - `volume`: Drive 원고 번호(`[001]대륙_나라_장소`)와 같은 권 번호. 같은 시작일의 여행기는 이 번호로 정렬합니다.
    - `datePrecision: month`: 정확한 날짜를 모를 때 연·월까지만 표시합니다.
+   - `cover`: 대표 썸네일. 사진 1장에 글 1편이 원칙이지만, 사진이 2장 이상이면 모두 본문에 싣고 대표 사진은 작성자가 직접 지정합니다.
    - `pin`: 지구본 핀 좌표. 도시·지역 단위로만 적고 숙소 등 정확한 위치는 쓰지 않습니다.
 5. StoryIntro, TextSection, ImageSingle, ImagePair, ImageFullBleed를 import하고 본문에서 사용합니다. 이미지도 MDX에서 import합니다.
 6. 공개 승인 완료 후에만 `status: published`, `visibility: public`로 저장소에 반영합니다. 실제 원고는 `sample: false`로 변경합니다.
