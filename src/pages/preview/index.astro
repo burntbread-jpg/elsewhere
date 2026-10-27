@@ -1,0 +1,7 @@
+---
+import Base from '../../layouts/Base.astro';
+import {publicTrips} from '../../lib/trips';
+const trips=await publicTrips();
+const layouts=[['a','커버 스토리','전면 사진 위에 제목, 큰 리드문, 2단 본문과 드롭캡.'],['b','펼침면','왼쪽에 사진이 고정되고 오른쪽에서 글이 흐르는 좌우 분할.'],['c','에디토리얼 그리드','제목 블록과 사진을 나란히 두고, 본문 옆 여백에 인용구를 거는 그리드.']];
+---
+<Base title="본문 레이아웃 시안"><div class="shell"><header class="page-heading"><p class="eyebrow">LAYOUT STUDY</p><h1>본문 레이아웃 시안.</h1><p>같은 글과 사진을 세 가지 배치로 보여 줍니다.</p></header><div class="place-list">{layouts.map(([k,name,desc])=><section><span class="eyebrow">{k.toUpperCase()}</span><div><h3>{name}</h3><p class="subtle">{desc}</p></div><div>{trips.map(t=><a href={`/preview/${k}/${t.id}/`}>{t.data.title} ↗</a>)}</div></section>)}</div></div></Base>

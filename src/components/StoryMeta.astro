@@ -1,0 +1,10 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { tripRangeLabel, continentSlug } from '../lib/trips';
+// The header pieces every story layout shares: the running eyebrow, the fact strip and the sample notice.
+interface Props { trip: CollectionEntry<'trips'>; volume: string; part: 'eyebrow'|'facts' }
+const { trip, volume, part } = Astro.props; const d=trip.data;
+const season=['WINTER','WINTER','SPRING','SPRING','SPRING','SUMMER','SUMMER','SUMMER','AUTUMN','AUTUMN','AUTUMN','WINTER'][d.tripStart.getMonth()];
+---
+{part==='eyebrow'&&<p class="eyebrow">VOL. {volume} / <a href={`/journal/?continent=${continentSlug(d.continent)}`}>{d.continent}</a> / {d.country} / {`${season} ${d.tripStart.getFullYear()}`}</p>}
+{part==='facts'&&<><dl class="story-facts"><div><dt>DATE</dt><dd>{tripRangeLabel(trip)}</dd></div><div><dt>PLACE</dt><dd>{d.regions.join(' · ')}</dd></div><div><dt>COUNTRY</dt><dd>{d.country}</dd></div><div><dt>VOLUME</dt><dd>{volume}</dd></div></dl>{d.sample&&<p class="sample-note">샘플 여행기 · 날짜와 장소는 예시이며 이미지는 직접 제작한 풍경 일러스트입니다. 실제 방문 경험을 서술하지 않습니다.</p>}</>}
