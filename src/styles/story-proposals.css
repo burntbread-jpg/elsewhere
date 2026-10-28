@@ -1,0 +1,59 @@
+/* Story page refinement proposals (p1–p3), reviewed under /preview/. The base layout is untouched. */
+
+/* Shared fixes every proposal carries. */
+.story:is(.story--p1,.story--p2,.story--p3) .text-section p{word-break:keep-all;overflow-wrap:break-word;text-wrap:pretty}
+.story:is(.story--p1,.story--p2,.story--p3) :is(h1,.lead,.pull-quote p){text-wrap:balance;word-break:keep-all}
+.story:is(.story--p1,.story--p2,.story--p3) .story-body .text-section{animation:none}
+.story:is(.story--p1,.story--p2,.story--p3) .text-section{column-count:auto;column-rule:none}
+
+/* P1 — one reading column with a margin: the pull quote hangs beside the text that follows it instead of interrupting it. */
+.story--p1 .story-lead{grid-template-columns:minmax(0,40rem)}
+.story--p1 .story-body{max-width:1280px}
+.story--p1 .story-body::after{content:'';display:block;clear:both}
+.story--p1 .text-section{max-width:40rem;margin:0 0 36px 8%}
+.story--p1 .story-body>.story-image{clear:both;margin:48px 0 72px 8%}
+.story--p1 .story-body>.pull-quote{float:right;width:min(280px,24%);margin:6px 0 24px;padding:22px 0 0;border-top:2px solid var(--color-ink)}
+.story--p1 .story-body>.pull-quote:before{content:none}
+html[data-typography] .story--p1 .pull-quote p{font-size:clamp(19px,1.6vw,23px);line-height:1.65}
+
+/* P2 — photo-led: title set large on the paper, the cover and in-story photos run edge to edge, the pull quote becomes a dark interlude. */
+.story--p2 .p2-head{padding-block:72px 44px}
+html[data-typography] .story--p2 .p2-head h1{font-size:clamp(56px,10vw,168px);line-height:1;letter-spacing:-.06em;margin:20px 0 18px}
+.story--p2 .story-opening .story-cover img{height:min(86svh,1080px);min-height:0}
+.story--p2 .story-opening .story-cover:after{content:none}
+.story--p2 .story-cover figcaption,.story--p2 .story-image figcaption{padding-inline:clamp(20px,5.5vw,88px)}
+.story--p2 .story-body{max-width:none;padding:0}
+.story--p2 .text-section{max-width:42rem;margin-inline:auto;padding-inline:20px}
+.story--p2 .story-image{margin:96px 0;padding:0}
+.story--p2 .pull-quote{max-width:none;margin:96px 0;padding:clamp(72px,10vw,140px) clamp(20px,10vw,200px);background:var(--color-overlay,#191A18)}
+.story--p2 .pull-quote:before{left:clamp(20px,10vw,200px);top:clamp(24px,4vw,64px);margin-left:-.1em;color:#8E9A84}
+html[data-typography] .story--p2 .pull-quote p{color:#F6F3ED;font-size:clamp(28px,4vw,56px);line-height:1.45;max-width:20em}
+
+/* P3 — a quiet book: framed cover, serif body, a small centred quote, and a travel-information box at the end. */
+.story--p3 .story-opening .story-cover img{height:min(70svh,820px);min-height:0}
+.story--p3 .story-opening .story-cover:after{content:none}
+.story--p3 .p3-head>*,.story--p3 .story-lead>*{max-width:40rem;margin-inline:auto}
+.story--p3 .p3-head{padding-top:64px}
+html[data-typography] .story--p3 .p3-head h1{font-size:clamp(44px,6vw,84px);line-height:1.15;margin:0 auto 14px}
+.story--p3 .story-lead{display:block;padding-block:40px 8px}
+.story--p3 .story-body{max-width:none;padding-inline:20px}
+.story--p3 .text-section{max-width:40rem;margin-inline:auto}
+html[data-typography] .story--p3 .text-section p{font-family:var(--preview-heading);font-size:18px;line-height:2}
+.story--p3 .story-body>.text-section:first-child>p:first-child::first-letter{float:none;font:inherit;margin:0;color:inherit}
+.story--p3 .story-image{max-width:56rem;margin:72px auto;padding:0}
+.story--p3 .pull-quote{max-width:32rem;margin:88px auto;padding:0;text-align:center}
+.story--p3 .pull-quote:before{content:'';position:static;display:block;width:40px;height:2px;margin:0 auto 28px;background:var(--color-olive)}
+html[data-typography] .story--p3 .pull-quote p{font-size:clamp(22px,2.2vw,27px);line-height:1.7}
+.story--p3 .p3-info{max-width:calc(40rem + 2 * 40px);margin:96px auto 0;padding:36px 40px 40px;background:#ECE7DD}
+html[data-typography] .story--p3 .p3-info h2{font-size:18px;margin:0 0 20px}
+.story--p3 .p3-info .story-facts{margin:0;grid-template-columns:1fr 1fr;border-top:0}
+
+@media(max-width:1023px){
+ .story--p1 .text-section,.story--p1 .story-body>.story-image{margin-left:0}
+ .story--p1 .story-body>.pull-quote{float:none;width:auto;margin:8px 0 44px}
+}
+@media(max-width:767px){
+ .story--p2 .p2-head{padding-block:40px 28px}
+ .story--p3 .p3-head{padding-top:40px}
+ .story--p3 .p3-info{margin-inline:20px;padding:28px 24px}
+}

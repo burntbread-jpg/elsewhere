@@ -1,0 +1,9 @@
+---
+import Base from '../../../layouts/Base.astro';
+import StoryArticle from '../../../components/StoryArticle.astro';
+import {publicTrips} from '../../../lib/trips';
+// Refinement proposals for the story page, for review on a preview deployment; not linked from the site.
+export async function getStaticPaths(){const trips=await publicTrips();return (['p1','p2','p3'] as const).flatMap(variant=>trips.map(trip=>({params:{variant,slug:trip.id},props:{trip,variant}})));}
+const {trip,variant}=Astro.props;
+---
+<Base title={`${trip.data.title} · 개선안 ${variant.slice(1)}`} description={trip.data.summary} progress><StoryArticle trip={trip} variant={variant} base={`/preview/${variant}`}/></Base>

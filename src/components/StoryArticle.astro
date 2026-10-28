@@ -3,22 +3,32 @@ import Photo from './Photo.astro';
 import StoryMeta from './StoryMeta.astro';
 import { Image } from 'astro:assets';
 import { render, type CollectionEntry } from 'astro:content';
-import { publicTrips } from '../lib/trips';
+import { publicTrips, tripRangeLabel } from '../lib/trips';
 // Cover-story layout: full-bleed opening photo with the title on it, a lead with the facts, then a two-column body.
-interface Props { trip: CollectionEntry<'trips'>; base?: string }
-const { trip, base='/journal' } = Astro.props;
+// p1–p3 are refinement proposals reviewed under /preview/; the published page uses the base layout.
+interface Props { trip: CollectionEntry<'trips'>; base?: string; variant?: 'base'|'p1'|'p2'|'p3' }
+const { trip, base='/journal', variant='base' } = Astro.props;
 const { Content } = await render(trip); const all = await publicTrips();
 // Volumes follow the archive numbering when given, else count up from the earliest journey; "next" continues down the newest-first list and wraps.
 const volume=String(trip.data.volume??all.length-all.findIndex(t=>t.id===trip.id)).padStart(3,'0');const next=all.length>1?all[(all.findIndex(t=>t.id===trip.id)+1)%all.length]:undefined;
 const d=trip.data;
 const wide=[800,1200,1800,2400,3200];
 ---
-<article class="story">
- <header class="story-opening">
+<article class={variant==='base'?'story':`story story--${variant}`}>
+{(variant==='base'||variant==='p1')&&<header class="story-opening">
   <Photo class="story-cover" src={d.cover} alt={d.coverAlt} priority name={`cover-${trip.id}`} widths={wide} sizes="100vw" focus={d.coverFocus}/>
   <div class="shell story-title"><StoryMeta trip={trip} volume={volume} part="eyebrow"/><h1>{d.title}</h1><p>{d.subtitle}</p></div>
- </header>
- <div class="shell story-lead"><p class="lead">{d.summary}</p><StoryMeta trip={trip} volume={volume} part="facts"/></div>
+ </header>}
+{variant==='p2'&&<header class="story-opening">
+  <div class="shell p2-head"><StoryMeta trip={trip} volume={volume} part="eyebrow"/><h1>{d.title}</h1><p class="subtle">{d.subtitle}</p></div>
+  <Photo class="story-cover" src={d.cover} alt={d.coverAlt} caption={`${d.regions.join(' · ')}, ${tripRangeLabel(trip)}`} priority name={`cover-${trip.id}`} widths={wide} sizes="100vw" focus={d.coverFocus}/>
+ </header>}
+{variant==='p3'&&<header class="story-opening">
+  <div class="shell"><Photo class="story-cover" src={d.cover} alt={d.coverAlt} priority name={`cover-${trip.id}`} widths={wide} sizes="(max-width: 767px) 100vw, 90vw" focus={d.coverFocus}/></div>
+  <div class="shell p3-head"><h1>{d.title}</h1><p class="subtle">{d.subtitle} · {tripRangeLabel(trip)}</p></div>
+ </header>}
+ <div class="shell story-lead"><p class="lead">{d.summary}</p>{variant==='base'||variant==='p2'?<StoryMeta trip={trip} volume={volume} part="facts"/>:null}</div>
  <div class="story-body"><Content/></div>
+{variant==='p3'&&<aside class="shell p3-info" aria-labelledby={`info-${trip.id}`}><h2 id={`info-${trip.id}`}>여행 정보</h2><StoryMeta trip={trip} volume={volume} part="facts"/></aside>}
 <footer class="story-end"><div class="shell story-end-row"><p class="eyebrow">END OF VOL. {volume}</p><a href={`${base}/`}>← 모든 여행기</a></div>{next&&<a class="next-journey" href={`${base}/${next.id}/`}><div class="shell next-journey-inner"><div class="next-copy"><p class="eyebrow">NEXT JOURNEY ↗</p><h2>{next.data.title}</h2><p class="meta">{next.data.tripStart.getFullYear()} / {next.data.regions.join(' · ')}</p></div><div class="next-cover" style={`view-transition-name:cover-${next.id}`}><Image src={next.data.cover} alt="" widths={[480,800,1200]} sizes="(max-width: 767px) 100vw, 50vw" format="webp" loading="lazy"/></div></div></a>}</footer>
 </article>
