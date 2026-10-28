@@ -8,12 +8,12 @@ html[data-typography] :is(.desktop-nav,.eyebrow){font-family:var(--preview-latin
 html[data-typography] .desktop-nav{font-weight:500}
 html[data-typography] :is(.meta,.archive-row>span,.globe-toolbar>.eyebrow){font-family:var(--preview-meta);font-size:12px;color:#595b53;letter-spacing:.025em}
 html[data-typography] :is(.globe-copy .eyebrow,.globe-copy .globe-description,.globe-help,.globe-demo,.globe-selection .eyebrow,.globe-destinations button,.globe-selection [role=status],.browse-stories){font-size:12px;color:#595b53}
-html[data-typography] :is(.subtle,.story-heading>.subtle){font-family:var(--preview-body);font-style:normal;font-size:16px}
+html[data-typography] .subtle{font-family:var(--preview-body);font-style:normal;font-size:16px}
 html[data-typography] :is(.story-card h2,.text-section h2){font-size:26px;line-height:1.6}
 html[data-typography] .intro{font-family:var(--preview-body);font-size:21px;font-weight:400;line-height:1.9}
 html[data-typography] .text-section{font-size:17px;line-height:1.9}
 html[data-typography] .globe-copy h1{font-size:clamp(32px,3.7vw,52px);line-height:1.45;font-weight:500}
 html[data-typography="photobook"] :is(.intro){font-family:var(--preview-heading);font-weight:400;letter-spacing:-.02em}
 html[data-typography] :is(.sample-note,.story-card small,figcaption){font-family:var(--preview-body);font-size:12px}
-@media(max-width:767px){html[data-typography] .wordmark{font-size:22px}html[data-typography] .globe-copy h1{font-size:32px}html[data-typography] .story-heading h1{font-size:32px}html[data-typography] .intro{font-size:19px}html[data-typography] .globe-toolbar>.eyebrow{font-size:10px}html[data-typography] .globe-help{font-size:11px}}
+@media(max-width:767px){html[data-typography] .wordmark{font-size:22px}html[data-typography] .globe-copy h1{font-size:32px}html[data-typography] .intro{font-size:19px}html[data-typography] .globe-toolbar>.eyebrow{font-size:10px}html[data-typography] .globe-help{font-size:11px}}
 

@@ -1,9 +1,0 @@
----
-import Base from '../../../layouts/Base.astro';
-import StoryArticle from '../../../components/StoryArticle.astro';
-import {publicTrips} from '../../../lib/trips';
-// Layout candidates for review on a preview deployment; not linked from the site.
-export async function getStaticPaths(){const trips=await publicTrips();return (['a','b','c'] as const).flatMap(layout=>trips.map(trip=>({params:{layout,slug:trip.id},props:{trip,layout}})));}
-const {trip,layout}=Astro.props;
----
-<Base title={`${trip.data.title} · 시안 ${layout.toUpperCase()}`} description={trip.data.summary} progress><StoryArticle trip={trip} layout={layout} base={`/preview/${layout}`}/></Base>

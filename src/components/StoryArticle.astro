@@ -3,43 +3,22 @@ import Photo from './Photo.astro';
 import StoryMeta from './StoryMeta.astro';
 import { Image } from 'astro:assets';
 import { render, type CollectionEntry } from 'astro:content';
-import { publicTrips, tripRangeLabel } from '../lib/trips';
-// "current" is the published layout; a–c are magazine-style candidates shown under /preview/.
-interface Props { trip: CollectionEntry<'trips'>; layout?: 'current'|'a'|'b'|'c'; base?: string }
-const { trip, layout='current', base='/journal' } = Astro.props;
+import { publicTrips } from '../lib/trips';
+// Cover-story layout: full-bleed opening photo with the title on it, a lead with the facts, then a two-column body.
+interface Props { trip: CollectionEntry<'trips'>; base?: string }
+const { trip, base='/journal' } = Astro.props;
 const { Content } = await render(trip); const all = await publicTrips();
 // Volumes follow the archive numbering when given, else count up from the earliest journey; "next" continues down the newest-first list and wraps.
 const volume=String(trip.data.volume??all.length-all.findIndex(t=>t.id===trip.id)).padStart(3,'0');const next=all.length>1?all[(all.findIndex(t=>t.id===trip.id)+1)%all.length]:undefined;
 const d=trip.data;
 const wide=[800,1200,1800,2400,3200];
 ---
-<article class={`story story--${layout}`}>
-{layout==='current'&&<>
- <header class="shell story-heading"><StoryMeta trip={trip} volume={volume} part="eyebrow"/><h1>{d.title}</h1><p class="subtle">{d.subtitle}</p><StoryMeta trip={trip} volume={volume} part="facts"/></header>
- <div class="shell story-cover"><Photo src={d.cover} alt={d.coverAlt} priority name={`cover-${trip.id}`}/></div>
- <div class="story-body"><Content/></div>
-</>}
-{layout==='a'&&<>
- <header class="a-opening">
-  <Photo class="a-cover" src={d.cover} alt={d.coverAlt} priority name={`cover-${trip.id}`} widths={wide} sizes="100vw" focus={d.coverFocus}/>
-  <div class="shell a-title"><StoryMeta trip={trip} volume={volume} part="eyebrow"/><h1>{d.title}</h1><p>{d.subtitle}</p></div>
+<article class="story">
+ <header class="story-opening">
+  <Photo class="story-cover" src={d.cover} alt={d.coverAlt} priority name={`cover-${trip.id}`} widths={wide} sizes="100vw" focus={d.coverFocus}/>
+  <div class="shell story-title"><StoryMeta trip={trip} volume={volume} part="eyebrow"/><h1>{d.title}</h1><p>{d.subtitle}</p></div>
  </header>
- <div class="shell a-lead"><p class="lead">{d.summary}</p><StoryMeta trip={trip} volume={volume} part="facts"/></div>
+ <div class="shell story-lead"><p class="lead">{d.summary}</p><StoryMeta trip={trip} volume={volume} part="facts"/></div>
  <div class="story-body"><Content/></div>
-</>}
-{layout==='b'&&<div class="b-split">
- <div class="b-media"><Photo src={d.cover} alt={d.coverAlt} priority name={`cover-${trip.id}`} widths={wide} sizes="(max-width: 1023px) 100vw, 50vw" focus={d.coverFocus}/></div>
- <div class="b-text">
-  <header class="b-head"><StoryMeta trip={trip} volume={volume} part="eyebrow"/><h1>{d.title}</h1><p class="subtle">{d.subtitle}</p><p class="lead">{d.summary}</p><StoryMeta trip={trip} volume={volume} part="facts"/></header>
-  <div class="story-body"><Content/></div>
- </div>
-</div>}
-{layout==='c'&&<>
- <header class="shell c-head">
-  <div class="c-titleblock"><StoryMeta trip={trip} volume={volume} part="eyebrow"/><h1>{d.title}</h1><p class="subtle">{d.subtitle}</p><p class="lead">{d.summary}</p><StoryMeta trip={trip} volume={volume} part="facts"/></div>
-  <Photo class="c-cover" src={d.cover} alt={d.coverAlt} caption={`${d.regions.join(' · ')}, ${tripRangeLabel(trip)}`} priority name={`cover-${trip.id}`} widths={wide} sizes="(max-width: 1023px) 100vw, 60vw"/>
- </header>
- <div class="shell"><div class="story-body c-body"><Content/></div></div>
-</>}
 <footer class="story-end"><div class="shell story-end-row"><p class="eyebrow">END OF VOL. {volume}</p><a href={`${base}/`}>← 모든 여행기</a></div>{next&&<a class="next-journey" href={`${base}/${next.id}/`}><div class="shell next-journey-inner"><div class="next-copy"><p class="eyebrow">NEXT JOURNEY ↗</p><h2>{next.data.title}</h2><p class="meta">{next.data.tripStart.getFullYear()} / {next.data.regions.join(' · ')}</p></div><div class="next-cover" style={`view-transition-name:cover-${next.id}`}><Image src={next.data.cover} alt="" widths={[480,800,1200]} sizes="(max-width: 767px) 100vw, 50vw" format="webp" loading="lazy"/></div></div></a>}</footer>
 </article>
