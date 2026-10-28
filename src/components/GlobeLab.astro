@@ -1,0 +1,41 @@
+---
+import { getImage } from 'astro:assets';
+import { publicTrips } from '../lib/trips';
+import '../styles/globe.css';
+import '../styles/globe-lab.css';
+// Home-hero globe candidates (g1–g3) for review under /preview/globe/; the published home keeps Globe.astro.
+interface Props { variant:'g1'|'g2'|'g3' }
+const { variant } = Astro.props;
+const trips = (await publicTrips()).filter(t => t.data.pin);
+const pins = await Promise.all(trips.map(async t => ({ id:t.id, label:t.data.regions[0], lat:t.data.pin!.lat, lng:t.data.pin!.lng, image:(await getImage({ src:t.data.cover, width:240, format:'webp' })).src, href:`/journal/${t.id}/`, title:t.data.title })));
+// Chapters run in travel order, oldest first, matching the arcs.
+const chapters = [...trips].reverse();
+const chapterImages = await Promise.all(chapters.map(t => getImage({ src:t.data.cover, width:720, format:'webp' })));
+---
+{variant !== 'g3' ? (
+<section class:list={['globe-lab', `globe-lab--${variant}`]} aria-labelledby="globe-heading">
+ <div class="globe-hero shell">
+  <div class="globe-copy"><p class="eyebrow">AN ATLAS OF LITTLE MOMENTS</p><h1 id="globe-heading">세상 어딘가, <br/>우리의 장면.</h1><p class="globe-description">지구를 돌려, 기억이 머문 곳으로.<br/>한 곳을 누르면 더 가까이 다가갑니다.</p><a class="browse-stories" href="#selected-stories">기록 펼쳐 보기 ↓</a></div>
+  <div class="globe-explorer" data-pins={JSON.stringify(pins)} data-variant={variant}>
+   <div class="globe-stage" aria-label="드래그로 회전하고 클릭으로 지역을 확대하는 3D 지구본"><div class="globe-fallback"><span>THE PLACES WE CARRY</span><p>지구본을 준비하고 있습니다.</p></div><div class="globe-markers"></div></div>
+   <div class="globe-toolbar"><span class="eyebrow">EXPLORE THE EARTH</span><div><button data-globe-reset>전체 보기 ↗</button></div></div>
+  </div>
+  <div class="globe-selection"><div><p class="eyebrow">A PLACE IN FOCUS</p><p data-globe-status role="status">지구본에서 마음이 가는 곳을 골라 보세요.</p></div><div class="globe-destinations" aria-label="여행 위치">{pins.map(pin=><button data-globe-pin={pin.id}><span>{pin.label}</span><span>↗</span></button>)}</div></div>
+ </div>
+</section>
+) : (
+<section class="globe-lab globe-lab--g3" aria-labelledby="globe-heading">
+ <div class="g3-layout shell">
+  <div class="g3-chapters">
+   <article class="g3-chapter g3-intro" data-chapter="-1"><p class="eyebrow">AN ATLAS OF LITTLE MOMENTS</p><h1 id="globe-heading">세상 어딘가, <br/>우리의 장면.</h1><p class="globe-description">스크롤을 내리면 여행한 순서대로 지구를 따라갑니다.</p></article>
+   {chapters.map((t, i) => <article class="g3-chapter" data-chapter={i}><p class="eyebrow">VOL. {String(t.data.volume ?? i + 1).padStart(3, '0')} · {t.data.tripStart.getFullYear()}</p><h2>{t.data.title}</h2><p class="g3-summary">{t.data.summary}</p><a class="g3-photo" href={`/journal/${t.id}/`}><img src={chapterImages[i].src} alt="" loading="lazy"/><span>여행기 읽기 ↗</span></a></article>)}
+  </div>
+  <div class="g3-sticky"><div class="globe-explorer" data-pins={JSON.stringify(pins)} data-variant="g3"><div class="globe-stage" aria-label="스크롤에 따라 여행지로 이동하는 3D 지구본"><div class="globe-fallback"><span>THE PLACES WE CARRY</span><p>지구본을 준비하고 있습니다.</p></div><div class="globe-markers"></div></div></div><p class="sr-only" data-globe-status role="status"></p></div>
+ </div>
+</section>
+)}
+<script>
+ import { initGlobeLab, type Variant } from '../scripts/globe-lab';
+ const root = document.querySelector<HTMLElement>('.globe-lab .globe-explorer');
+ if(root) initGlobeLab(root, root.dataset.variant as Variant).catch(() => { const f = root.querySelector<HTMLElement>('.globe-fallback'); if(f){ f.hidden = false; f.querySelector('p')!.textContent = '이 환경에서는 3D 지구본을 표시할 수 없습니다.'; } });
+</script>

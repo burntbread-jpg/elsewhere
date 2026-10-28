@@ -1,0 +1,12 @@
+---
+// Home with a globe candidate (g1–g3), for review on a preview deployment; not linked from the site.
+export function getStaticPaths(){return (['g1','g2','g3'] as const).map(variant=>({params:{variant},props:{variant}}));}
+import Base from '../../../layouts/Base.astro';
+import GlobeLab from '../../../components/GlobeLab.astro';
+import StoryCard from '../../../components/StoryCard.astro';
+import {publicTrips} from '../../../lib/trips';
+const {variant}=Astro.props;
+const trips=await publicTrips();const places=new Set(trips.flatMap(t=>t.data.regions));const years=trips.map(t=>t.data.tripStart.getFullYear());
+const pad=(n:number)=>String(n).padStart(2,'0');
+---
+<Base title={`홈 지구본 시안 ${variant.slice(1)}`}><GlobeLab variant={variant}/><div class="shell"><p class="home-intro">여행은 지나가지만, 어떤 장면은 오래 남습니다.<br/>사진과 짧은 문장으로 그곳의 시간을 모읍니다.</p><section id="selected-stories"><div class="section-heading"><h2 class="eyebrow">SELECTED STORIES <span>({pad(trips.length)})</span></h2><a href="/journal/">모든 여행기 보기 ↗</a></div><div class="editorial-grid">{trips.map((trip,index)=><StoryCard trip={trip} index={index}/>)}</div></section><section class="places-teaser" aria-labelledby="places-teaser-heading"><p class="eyebrow">A MAP OF MEMORIES</p><h2 id="places-teaser-heading">다시 펼쳐 보고 싶은 곳들.</h2><dl class="tally"><div><dt>JOURNEYS</dt><dd>{pad(trips.length)}</dd></div><div><dt>PLACES</dt><dd>{pad(places.size)}</dd></div><div><dt>SINCE</dt><dd>{years.length?Math.min(...years):'—'}</dd></div></dl><a href="/places/">장소로 찾아보기 ↗</a>{trips.some(t=>t.data.sample)&&<p class="subtle">현재 콘텐츠는 디자인 확인용 예시입니다.</p>}</section></div></Base>
