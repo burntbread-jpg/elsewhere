@@ -1,10 +1,12 @@
 /* Story page — cover-story layout: full-bleed opening photo with the title on it, a large lead, two-column body. */
 
+/* Type scale on this page: 12 labels · 14 meta · 17 body · 28 lead · 42 quote · display. */
+
 /* Pull quote and lead paragraph. */
 .pull-quote{max-width:920px;margin:72px auto;padding:0 0 0 72px;position:relative}
 .pull-quote:before{content:'“';position:absolute;left:0;top:-.15em;font:400 96px/1 Georgia,serif;color:var(--color-olive)}
 html[data-typography] .pull-quote p{font-family:var(--preview-heading);font-size:clamp(26px,3.2vw,42px);line-height:1.5;letter-spacing:-.03em;margin:0;color:var(--color-ink);text-indent:0}
-html[data-typography] .story .lead{font-family:var(--preview-heading);font-size:clamp(21px,2.1vw,29px);line-height:1.7;letter-spacing:-.03em;color:var(--color-ink)}
+html[data-typography] .story .lead{font-family:var(--preview-heading);font-size:clamp(20px,2vw,28px);line-height:1.7;letter-spacing:-.03em;color:var(--color-ink)}
 
 /* Opening: the cover fills the first screen; the title sits on its lower edge. */
 .story-opening{position:relative}
@@ -14,6 +16,7 @@ html[data-typography] .story .lead{font-family:var(--preview-heading);font-size:
 .story-title{position:absolute;left:0;right:0;bottom:clamp(32px,6vh,72px);pointer-events:none}
 .story-title a{pointer-events:auto}
 html[data-typography] .story-title :is(.eyebrow,p){color:#F6F3ED}
+html[data-typography] .story-title p:last-child{font-size:17px}
 html[data-typography] .story-title h1{color:#fff;font-size:clamp(52px,9vw,148px);line-height:1.05;margin:16px 0 14px;letter-spacing:-.055em}
 
 /* Lead beside the fact strip. */
@@ -33,4 +36,5 @@ html[data-typography] .story-title h1{color:#fff;font-size:clamp(52px,9vw,148px)
  .story-opening .story-cover img{height:calc(100svh - 72px);min-height:440px}
  .pull-quote{padding-left:48px}
  .pull-quote:before{font-size:72px}
+ html[data-typography] .pull-quote p{font-size:22px;line-height:1.6}
 }
