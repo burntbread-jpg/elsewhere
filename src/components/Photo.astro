@@ -7,4 +7,4 @@ const style=[name&&`view-transition-name:${name}`,focus&&`--focus:${focus}`].fil
 // The lightbox opens a 4K rendition rather than the full-resolution original.
 const large=await getImage({src,width:Math.min(src.width,3840),format:'webp',quality:85});
 ---
-<figure class={className} style={style}><a class="photo-open" href={large.src} data-photo data-caption={caption || alt} aria-label={`${alt} — 크게 보기`}><Image src={src} alt={alt} widths={widths} sizes={sizes} format="webp" loading={priority?'eager':'lazy'} fetchpriority={priority?'high':undefined}/></a>{caption&&<figcaption>{caption}</figcaption>}</figure>
+<figure class={className} style={style}><a class="photo-open" href={large.src} data-photo aria-label={`${alt} — 크게 보기`}><Image src={src} alt={alt} widths={widths} sizes={sizes} format="webp" loading={priority?'eager':'lazy'} fetchpriority={priority?'high':undefined}/></a>{caption&&<figcaption>{caption}</figcaption>}</figure>
