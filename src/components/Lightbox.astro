@@ -4,6 +4,8 @@
  const photos=Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-photo]'));
  const image=document.querySelector<HTMLImageElement>('#large-photo')!;
  let index=0; let opener: HTMLAnchorElement|undefined; let oldOverflow='';
+ // With a single photo there is nothing to page through, so the counter and arrows stay hidden.
+ if(photos.length<2)['#photo-count','#previous-photo','#next-photo'].forEach(s=>{document.querySelector<HTMLElement>(s)!.hidden=true;});
  function show(next:number){index=(next+photos.length)%photos.length;const p=photos[index]; image.src=p.href;image.alt=p.querySelector('img')?.alt||'';document.querySelector('#photo-count')!.textContent=`${index+1} / ${photos.length}`;}
  photos.forEach((p,i)=>p.addEventListener('click',e=>{e.preventDefault();opener=p;show(i);oldOverflow=document.body.style.overflow;document.body.style.overflow='hidden';dialog.showModal();}));
  document.querySelector('#close-photo')!.addEventListener('click',()=>dialog.close());
