@@ -15,12 +15,13 @@
 
 ## 2. 현재 상태
 
-- 공개 여행기 4편. 번호(`volume`)는 Drive 원고 번호와 같습니다.
+- 공개 여행기 5편. 번호(`volume`)는 Drive 원고 번호와 같습니다.
   - VOL. 001 `src/content/trips/001-mongolia-gobi.mdx` — 고비 사막, 2025. 08.
   - VOL. 002 `src/content/trips/002-italy-palermo.mdx` — 팔레르모, 2019. 12. — 2020. 01.
   - VOL. 003 `src/content/trips/003-mongolia-dundgovi.mdx` — 둔드고비, 2025. 08. (커버는 별 사진, 낮 사진은 본문 안)
   - VOL. 004 `src/content/trips/004-china-beijing.mdx` — 북경 천단, 2025. 02.
-- 사진 5장은 AI 업스케일 후 긴 변 7680px(8K)로 교체되어 있습니다(5절).
+  - VOL. 005 `src/content/trips/005-france-paris-louvre.mdx` — 파리 루브르, 2022. 01.
+- 사진 6장은 AI 업스케일 후 긴 변 7680px(8K)로 교체되어 있습니다(5절).
 - 샘플 원고 2편(`sample-trip-01/02`)은 파일만 남아 있고, 실제 여행기가 하나라도 있으면 목록과 지구본에서 자동으로 빠집니다.
 - 홈: 3D 지구본(여행기마다 도시·지역 단위 핀, 사용자가 고른 G1 모션: 등장 연출, 자동 회전, 대기 빛, 퍼지는 고리, 여행 순서대로 그려지는 경로. `docs/GLOBE.md`), 선택된 이야기, 집계. Journal: 대륙 보기(ALL · ASIA · EUROPE …) + 연도·장소 필터. Places: 대륙별 묶음. Archive: 연도별 목록.
 
