@@ -10,9 +10,12 @@ Steps (see docs/HANDOFF.md, "사진 처리"):
      (weight = share of the AI image; 0.75 for photos, 0.6 for night skies so faint stars survive),
      resizes the long edge to 7680px and saves a JPEG without EXIF/XMP.
      Without --ai it only enlarges with Lanczos.
+  3. If a face comes out smeared or doubled (the AI redraws small faces), pass
+     --protect x0,y0,x1,y1 (a box in original-image pixels, repeatable): inside a feathered
+     ellipse over that box the plain enlargement, lightly sharpened, replaces the blend.
 """
 import argparse
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFilter
 
 LONG_EDGE = 7680
 
@@ -22,6 +25,7 @@ def main() -> None:
     ap.add_argument('output')
     ap.add_argument('--ai', help='4x upscaled PNG of the original')
     ap.add_argument('--weight', type=float, default=0.75, help='share of the AI image in the blend')
+    ap.add_argument('--protect', action='append', default=[], help='x0,y0,x1,y1 box in original pixels kept free of AI detail')
     args = ap.parse_args()
 
     src = Image.open(args.original).convert('RGB')
@@ -30,7 +34,16 @@ def main() -> None:
     out = src.resize(size, Image.LANCZOS)
     if args.ai:
         ai = Image.open(args.ai).convert('RGB').resize(size, Image.LANCZOS)
-        out = Image.blend(out, ai, args.weight)
+        plain = out
+        out = Image.blend(plain, ai, args.weight)
+        if args.protect:
+            mask = Image.new('L', size, 0)
+            draw = ImageDraw.Draw(mask)
+            for box in args.protect:
+                draw.ellipse([round(float(v) * scale) for v in box.split(',')], fill=255)
+            mask = mask.filter(ImageFilter.GaussianBlur(13 * scale))
+            sharp = plain.filter(ImageFilter.UnsharpMask(radius=6, percent=60, threshold=2))
+            out = Image.composite(sharp, out, mask)
     # A fresh image carries no EXIF/XMP, which tools/checks/publication.mjs requires.
     out.save(args.output, quality=90, optimize=True, progressive=True)
     print(f'{args.output}: {size[0]}x{size[1]}')

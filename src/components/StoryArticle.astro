@@ -12,10 +12,12 @@ const { Content } = await render(trip); const all = await publicTrips();
 const volume=String(trip.data.volume??all.length-all.findIndex(t=>t.id===trip.id)).padStart(3,'0');const next=all.length>1?all[(all.findIndex(t=>t.id===trip.id)+1)%all.length]:undefined;
 const d=trip.data;
 const wide=[800,1200,1800,2400,3200];
+// The cover fills the screen with object-fit: cover, so on screens narrower than the photo it is cropped from a wider rendition; ask for one wide enough for the full height.
+const coverSizes=`(max-aspect-ratio: ${d.cover.width}/${d.cover.height}) calc(100svh * ${(d.cover.width/d.cover.height).toFixed(3)}), 100vw`;
 ---
 <article class="story">
  <header class="story-opening">
-  <Photo class="story-cover" src={d.cover} alt={d.coverAlt} priority name={`cover-${trip.id}`} widths={wide} sizes="100vw" focus={d.coverFocus}/>
+  <Photo class="story-cover" src={d.cover} alt={d.coverAlt} priority name={`cover-${trip.id}`} widths={wide} sizes={coverSizes} focus={d.coverFocus}/>
   <div class="shell story-title"><StoryMeta trip={trip} volume={volume} part="eyebrow"/><h1>{d.title}</h1><p>{d.subtitle}</p></div>
  </header>
  <div class="shell story-lead"><p class="lead">{d.summary}</p><StoryMeta trip={trip} volume={volume} part="facts"/></div>

@@ -56,6 +56,7 @@
   realesrgan-ncnn-vulkan -i original.png -o ai.png -n upscayl-lite-4x -s 4
   python3 tools/photos/prepare.py original.jpg src/assets/trips/<이름>.jpg --ai ai.png --weight 0.75
   ```
+  작은 얼굴은 AI가 다시 그리면서 번지거나 이중 윤곽이 생길 수 있습니다(체팔루 편). 그럴 때는 `--protect x0,y0,x1,y1`(원본 픽셀 기준 얼굴 영역, 여러 번 가능)을 붙이면 그 부분만 일반 확대본에 약한 샤픈을 더해 씁니다.
   `--weight`는 AI 결과의 비율입니다. 일반 사진 0.75, 밤하늘처럼 희미한 점이 많은 사진은 0.6(AI만 쓰면 인물 둘레에 밝은 테두리가 생기고 희미한 별이 선처럼 변합니다).
 - GPU가 있는 개인 컴퓨터에서는 Upscayl 데스크톱 앱으로 같은 작업을 장당 몇 초에 할 수 있습니다. 결과를 `prepare.py`에 `--ai`로 넘기면 됩니다.
 - 화면에는 Astro가 만든 WebP만 나가고, 라이트박스는 최대 3840px 판을 엽니다. 8K 원본은 그대로 다운로드되지 않습니다.
