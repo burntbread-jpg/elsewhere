@@ -15,7 +15,7 @@
 
 ## 2. 현재 상태
 
-- 공개 여행기 11편. 번호(`volume`)는 Drive 원고 번호와 같습니다.
+- 공개 여행기 12편. 번호(`volume`)는 Drive 원고 번호와 같습니다.
   - VOL. 001 `src/content/trips/001-mongolia-gobi.mdx` — 고비 사막, 2025. 08.
   - VOL. 002 `src/content/trips/002-italy-palermo.mdx` — 팔레르모, 2019. 12. — 2020. 01.
   - VOL. 003 `src/content/trips/003-mongolia-dundgovi.mdx` — 둔드고비, 2025. 08. (커버는 별 사진, 낮 사진은 본문 안)
@@ -27,7 +27,8 @@
   - VOL. 009 `src/content/trips/009-australia-newcastle.mdx` — 뉴캐슬, 2018. 12. (호주 연재 첫 편)
   - VOL. 010 `src/content/trips/010-austria-vienna-khm.mdx` — 빈 미술사 박물관, 2015. 02.
   - VOL. 011 `src/content/trips/011-spain-santiago-de-compostela.mdx` — 산티아고 데 콤포스텔라, 2023. 01. (이베리아 여행의 세 번째 도시쯤, 앞선 도시들은 아직 미게시)
-- 사진 12장은 AI 업스케일 후 긴 변 7680px(8K)로 교체되어 있습니다(5절).
+  - VOL. 012 `src/content/trips/012-usa-las-vegas.mdx` — 라스베이거스, 2022. 08. (미국 여행, 그랜드캐니언 다음)
+- 사진 13장은 AI 업스케일 후 긴 변 7680px(8K)로 교체되어 있습니다(5절).
 - 샘플 원고 2편(`sample-trip-01/02`)은 파일만 남아 있고, 실제 여행기가 하나라도 있으면 목록과 지구본에서 자동으로 빠집니다.
 - 홈: 3D 지구본(여행기마다 도시·지역 단위 핀, 사용자가 고른 G1 모션: 등장 연출, 자동 회전, 대기 빛, 퍼지는 고리, 여행 순서대로 그려지는 경로. `docs/GLOBE.md`), 선택된 이야기, 집계. Journal: 대륙 보기(ALL · ASIA · EUROPE …) + 연도·장소 필터. Places: 대륙별 묶음. Archive: 연도별 목록.
 
