@@ -21,7 +21,7 @@
 
 | VOL | 파일 (`src/content/trips/`) | 제목 | 부제 (한글 / 커버 영문) | 시기 | 연재·메모 |
 |---|---|---|---|---|---|
-| 001 | `001-mongolia-gobi.mdx` | 고비 사막 | 모래 위의 방랑자 / A Wanderer on the Sand, Gobi | 2025. 08. | 몽골 연재 ① |
+| 001 | `001-mongolia-gobi.mdx` | 고비 사막 | 세계가 더 크게 열린다 / The World Opens Wider, Gobi | 2025. 08. | 몽골 연재 ① |
 | 002 | `002-italy-palermo.mdx` | 팔레르모 | 바뀌기 전의 초상 / A Portrait Before It Changed, Palermo | 2019. 12. — 2020. 01. | 시칠리아 연재 ① |
 | 003 | `003-mongolia-dundgovi.mdx` | 둔드고비 | 별의 후예 / Descendants of the Stars, Dundgovi | 2025. 08. | 몽골 연재 ②. 커버는 별 사진, 낮 사진은 본문 안 |
 | 004 | `004-china-beijing.mdx` | 천단 | 모든 답은 위에 있다 / All Answers Lie Above, Beijing | 2025. 02. | |
