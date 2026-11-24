@@ -16,7 +16,7 @@ const wide=[800,1200,1800,2400,3200];
 const coverSizes=`(max-aspect-ratio: ${d.cover.width}/${d.cover.height}) calc(100svh * ${(d.cover.width/d.cover.height).toFixed(3)}), 100vw`;
 ---
 <article class="story">
- <header class:list={["story-opening",{"cover-zoom-out":d.coverZoomOut}]} style={d.coverMobileFocus?`--focus-mobile:${d.coverMobileFocus}`:undefined}>
+ <header class="story-opening">
   <Photo class="story-cover" src={d.cover} alt={d.coverAlt} priority name={`cover-${trip.id}`} widths={wide} sizes={coverSizes} focus={d.coverFocus}/>
   <div class="shell story-title"><StoryMeta trip={trip} volume={volume} part="eyebrow"/><h1>{d.title}</h1><p>{d.subtitle}</p></div>
  </header>

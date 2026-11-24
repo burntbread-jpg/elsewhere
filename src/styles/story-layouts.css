@@ -34,9 +34,6 @@ html[data-typography] .story-title h1{color:#fff;font-size:clamp(52px,9vw,148px)
 @media(max-width:767px){
  .story-lead{grid-template-columns:1fr;gap:40px;padding-block:56px 16px}
  .story-opening .story-cover img{height:calc(100svh - 72px);min-height:440px}
- /* Wide subjects (a whole rock, a skyline) keep more of the frame on phones: a shorter cover crops less of a landscape photo. */
- .story-opening .story-cover img{object-position:var(--focus-mobile,var(--focus,50% 50%))}
- .story-opening.cover-zoom-out .story-cover img{height:min(calc(100svh - 72px),100vw);min-height:0}
  .pull-quote{padding-left:48px}
  .pull-quote:before{font-size:72px}
  html[data-typography] .pull-quote p{font-size:22px;line-height:1.6}
