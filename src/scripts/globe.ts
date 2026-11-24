@@ -87,8 +87,20 @@ export async function initGlobe(root:HTMLElement){
   arcs.forEach((a,i)=>{const want=now>arcStart+i*900?a.n+1:0;a.drawn=reduced?want:a.drawn+(want-a.drawn)*.06;a.geometry.setDrawRange(0,Math.round(a.drawn));a.comet.visible=!reduced&&a.drawn>a.n-1;if(a.comet.visible)a.comet.position.copy(a.points[Math.floor(((t*.25+i*.37)%1)*a.n)]);});
   controls.update();renderer.render(scene,camera);direction.copy(camera.position).normalize();
   const screenMarkers=markers.map(m=>{worldPos.copy(m.local).applyMatrix4(world.matrixWorld);const front=worldPos.clone().normalize().dot(direction)>1/camera.position.length();projected.copy(worldPos).project(camera);return{...m,x:(projected.x*.5+.5)*stage.clientWidth,y:(-projected.y*.5+.5)*stage.clientHeight,visible:front&&Math.abs(projected.x)<.96&&Math.abs(projected.y)<.93};});
-  screenMarkers.forEach((m,index)=>{m.button.hidden=!m.visible;if(!m.visible)return;// Cards that would overlap are pushed apart, each away from its neighbours, so their left-right order matches the pins (an index-based side swapped e.g. Agra and Kathmandu).
-   const near=screenMarkers.filter((other,j)=>j!==index&&other.visible&&Math.hypot(m.x-other.x,m.y-other.y)<90);const dx=near.length?m.x-near.reduce((s,o)=>s+o.x,0)/near.length:0;const offset=near.length?(Math.abs(dx)>1?Math.sign(dx):(index%2?1:-1))*40:0;m.button.style.setProperty('--pin-offset',`${offset}px`);m.button.style.left=`${m.x+offset}px`;m.button.style.top=`${m.y}px`;});
+  // Photo cards that would overlap are nudged apart, sideways or upward, by the least distance that
+  // clears them. Each push follows the direction from one pin to the other, so cards keep the pins'
+  // arrangement and stay as close to their places as the space allows.
+  const shown=screenMarkers.filter(m=>m.visible);const w=(shown[0]?.button.offsetWidth||60)+6,h=(shown[0]?.button.offsetHeight||48)+6;
+  const pos=shown.map(m=>({x:m.x,y:m.y}));
+  for(let it=0;it<24;it++){let moved=false;
+   for(let a=0;a<shown.length;a++)for(let b=a+1;b<shown.length;b++){
+    const ox=w-Math.abs(pos[a].x-pos[b].x),oy=h-Math.abs(pos[a].y-pos[b].y);if(ox<=0||oy<=0)continue;moved=true;
+    const px=shown[b].x-shown[a].x,py=shown[b].y-shown[a].y;
+    if(ox/w<=oy/h||Math.abs(px)/w>=Math.abs(py)/h){const s=(px||b-a)>0?1:-1;pos[a].x-=s*ox/2;pos[b].x+=s*ox/2;}
+    else{const s=(py||b-a)>0?1:-1;pos[a].y-=s*oy/2;pos[b].y+=s*oy/2;}}
+   if(!moved)break;}
+  const placed=new Map(shown.map((m,k)=>[m,pos[k]]));
+  screenMarkers.forEach(m=>{m.button.hidden=!m.visible;if(!m.visible)return;const p=placed.get(m)!;const dx=Math.round(p.x-m.x),dy=Math.round(p.y-m.y);m.button.style.setProperty('--pin-offset',`${dx}px`);m.button.style.setProperty('--pin-offset-y',`${dy}px`);m.button.style.left=`${p.x}px`;m.button.style.top=`${p.y}px`;});
  });
  const cleanup=()=>{renderer.setAnimationLoop(null);clearTimeout(idleTimer);resize.disconnect();observer.disconnect();controls.dispose();texture.dispose();renderer.dispose();scene.traverse(object=>{if(object instanceof THREE.Mesh||object instanceof THREE.Line){object.geometry.dispose();const materials=Array.isArray(object.material)?object.material:[object.material];materials.forEach(m=>m.dispose());}});};window.addEventListener('pagehide',cleanup,{once:true});
 }
