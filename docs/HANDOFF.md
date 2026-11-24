@@ -36,7 +36,7 @@
 | 013 | `013-nepal-kathmandu.mdx` | 카트만두 | 다 알고도 그대로 두는 눈 / Eyes That Know and Let Be, Kathmandu | 2015. 12. 31. | 인도·네팔 연재(순서 미정). 사원 이름(스와얌부나트)은 본문에 쓰지 않음 |
 | 014 | `014-russia-moscow.mdx` | 모스크바 | 거인의 어깨 / On the Shoulders of a Giant, Moscow | 2016. 09. | 빈·프라하·드레스덴 여행의 레이오버. 러시아 편이 한 편 더 올 예정 |
 | 015 | `015-australia-melbourne.mdx` | 멜버른 | 벤치에 남은 이름 / Names on the Benches, Melbourne | 2019. 01. | 호주 연재 ②(여정의 마지막 전 도시). 골드코스트 새해 편은 나중에 쓸 예정 |
-| 016 | `016-indonesia-prambanan.mdx` | 프람바난 | 사진이 대신 기억한 것 / What the Photo Remembered, Prambanan | 2015. 01. | 인도네시아. 보로부두르는 따로 한 편 예정. 원본 해상도가 낮아 사이트 사진 톤에 맞춘 보정 적용 |
+| 016 | `016-indonesia-prambanan.mdx` | 프람바난 | 사진이 대신 기억한 것 / What the Photo Remembered, Prambanan | 2015. 01. | 인도네시아. 보로부두르는 따로 한 편 예정. 원본 해상도가 낮아 보정 후 사용자 요청으로 흑백 변환 |
 
 ### 2.2 앞으로 올 연재 (같은 여행의 다른 편)
 
