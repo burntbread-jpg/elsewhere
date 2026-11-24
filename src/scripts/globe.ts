@@ -87,10 +87,12 @@ export async function initGlobe(root:HTMLElement){
   arcs.forEach((a,i)=>{const want=now>arcStart+i*900?a.n+1:0;a.drawn=reduced?want:a.drawn+(want-a.drawn)*.06;a.geometry.setDrawRange(0,Math.round(a.drawn));a.comet.visible=!reduced&&a.drawn>a.n-1;if(a.comet.visible)a.comet.position.copy(a.points[Math.floor(((t*.25+i*.37)%1)*a.n)]);});
   controls.update();renderer.render(scene,camera);direction.copy(camera.position).normalize();
   const screenMarkers=markers.map(m=>{worldPos.copy(m.local).applyMatrix4(world.matrixWorld);const front=worldPos.clone().normalize().dot(direction)>1/camera.position.length();projected.copy(worldPos).project(camera);return{...m,x:(projected.x*.5+.5)*stage.clientWidth,y:(-projected.y*.5+.5)*stage.clientHeight,visible:front&&Math.abs(projected.x)<.96&&Math.abs(projected.y)<.93};});
-  // Photo cards that would overlap are nudged apart, sideways or upward, by the least distance that
-  // clears them. Each push follows the direction from one pin to the other, so cards keep the pins'
+  // Photo cards that sit almost on top of each other are nudged apart, sideways or upward, by the least
+  // distance that keeps each one visible. Each push follows the direction from one pin to the other, so cards keep the pins'
   // arrangement and stay as close to their places as the space allows.
-  const shown=screenMarkers.filter(m=>m.visible);const w=(shown[0]?.button.offsetWidth||60)+6,h=(shown[0]?.button.offsetHeight||48)+6;
+  // Cards may overlap by up to about 40% so the map stays readable as stories pile up; no card strays
+  // more than about half a card from its pin.
+  const shown=screenMarkers.filter(m=>m.visible);const cw=shown[0]?.button.offsetWidth||60,ch=shown[0]?.button.offsetHeight||48;const w=cw*.6,h=ch*.6,reach=cw*.55;
   const pos=shown.map(m=>({x:m.x,y:m.y}));
   for(let it=0;it<24;it++){let moved=false;
    for(let a=0;a<shown.length;a++)for(let b=a+1;b<shown.length;b++){
@@ -99,6 +101,7 @@ export async function initGlobe(root:HTMLElement){
     if(ox/w<=oy/h||Math.abs(px)/w>=Math.abs(py)/h){const s=(px||b-a)>0?1:-1;pos[a].x-=s*ox/2;pos[b].x+=s*ox/2;}
     else{const s=(py||b-a)>0?1:-1;pos[a].y-=s*oy/2;pos[b].y+=s*oy/2;}}
    if(!moved)break;}
+  pos.forEach((p,k)=>{const dx=p.x-shown[k].x,dy=p.y-shown[k].y,d=Math.hypot(dx,dy);if(d>reach){p.x=shown[k].x+dx*reach/d;p.y=shown[k].y+dy*reach/d;}});
   const placed=new Map(shown.map((m,k)=>[m,pos[k]]));
   screenMarkers.forEach(m=>{m.button.hidden=!m.visible;if(!m.visible)return;const p=placed.get(m)!;const dx=Math.round(p.x-m.x),dy=Math.round(p.y-m.y);m.button.style.setProperty('--pin-offset',`${dx}px`);m.button.style.setProperty('--pin-offset-y',`${dy}px`);m.button.style.left=`${p.x}px`;m.button.style.top=`${p.y}px`;});
  });
