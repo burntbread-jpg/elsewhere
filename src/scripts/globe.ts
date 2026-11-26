@@ -85,6 +85,9 @@ export async function initGlobe(root:HTMLElement){
   world.rotation.x+=(lean.x-world.rotation.x)*.06;world.rotation.y+=(lean.y-world.rotation.y)*.06;
   rings.forEach(r=>{const p=reduced?.4:((t*.55+r.phase)%1);r.ring.scale.setScalar(1+easeOut(p)*2.4);r.material.opacity=(1-p)*.85;});
   arcs.forEach((a,i)=>{const want=now>arcStart+i*900?a.n+1:0;a.drawn=reduced?want:a.drawn+(want-a.drawn)*.06;a.geometry.setDrawRange(0,Math.round(a.drawn));a.comet.visible=!reduced&&a.drawn>a.n-1;if(a.comet.visible)a.comet.position.copy(a.points[Math.floor(((t*.25+i*.37)%1)*a.n)]);});
+  // Drag and auto-rotation turn the globe by an angle, so close up the same swipe would sweep the surface
+  // several times faster. Scale both by the camera's height above the surface relative to the opening view.
+  {const near=THREE.MathUtils.clamp((camera.position.length()-1)/(initial.length()-1),.1,1);controls.rotateSpeed=.55*near;controls.autoRotateSpeed=.45*near;}
   controls.update();renderer.render(scene,camera);direction.copy(camera.position).normalize();
   const screenMarkers=markers.map(m=>{worldPos.copy(m.local).applyMatrix4(world.matrixWorld);const front=worldPos.clone().normalize().dot(direction)>1/camera.position.length();projected.copy(worldPos).project(camera);return{...m,x:(projected.x*.5+.5)*stage.clientWidth,y:(-projected.y*.5+.5)*stage.clientHeight,visible:front&&Math.abs(projected.x)<.96&&Math.abs(projected.y)<.93};});
   // Photo cards that sit almost on top of each other are nudged apart, sideways or upward, by the least
