@@ -19,13 +19,17 @@ export async function initGlobe(root:HTMLElement){
  camera.position.copy(reduced?initial:position(8,-10,7.5));controls.update();
  let target:THREE.Vector3|undefined=reduced?undefined:initial.clone();let targetDistance=initial.length();
 
- const textureCanvas=document.createElement('canvas');textureCanvas.width=2048;textureCanvas.height=1024;const ctx=textureCanvas.getContext('2d')!;
- ctx.fillStyle='#e2e6df';ctx.fillRect(0,0,2048,1024);
- const response=await fetch('/maps/land.geojson');if(!response.ok)throw Error('Map data unavailable');const land:Land=await response.json();
- ctx.fillStyle='#8c9a80';ctx.strokeStyle='#f4f2e8';ctx.lineWidth=.7;
- for(const feature of land.features){const polygons=feature.geometry.type==='Polygon'?[feature.geometry.coordinates as number[][][]]:feature.geometry.coordinates as number[][][][];for(const polygon of polygons){ctx.beginPath();for(const ring of polygon){ring.forEach(([lng,lat],i)=>{const x=(lng+180)/360*2048;const y=(90-lat)/180*1024;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});ctx.closePath();}ctx.fill('evenodd');ctx.stroke();}}
- // Longitude at sphere +X is 0°; Three's UV starts at -X (−180°).
+ // The land texture is drawn from vector outlines. Phones get 4096×2048 (iOS Safari caps a canvas at about
+ // 16.7 million pixels); larger screens with a mouse get 8192×4096 where the GPU allows it.
+ const wide=renderer.capabilities.maxTextureSize>=8192&&!matchMedia('(pointer: coarse)').matches;
+ const TW=wide?8192:4096,TH=TW/2;
+ const textureCanvas=document.createElement('canvas');textureCanvas.width=TW;textureCanvas.height=TH;const ctx=textureCanvas.getContext('2d')!;
+ function drawLand(land:Land){ctx.fillStyle='#e2e6df';ctx.fillRect(0,0,TW,TH);ctx.fillStyle='#8c9a80';ctx.strokeStyle='#f4f2e8';ctx.lineWidth=.7*TW/2048;ctx.lineJoin='round';
+  for(const feature of land.features){const polygons=feature.geometry.type==='Polygon'?[feature.geometry.coordinates as number[][][]]:feature.geometry.coordinates as number[][][][];for(const polygon of polygons){ctx.beginPath();for(const ring of polygon){ring.forEach(([lng,lat],i)=>{const x=(lng+180)/360*TW;const y=(90-lat)/180*TH;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});ctx.closePath();}ctx.fill('evenodd');ctx.stroke();}}}
+ // Draw the light 1:110m outline first so the globe appears quickly, then swap in the 1:50m coastline.
+ const response=await fetch('/maps/land.geojson');if(!response.ok)throw Error('Map data unavailable');drawLand(await response.json());
  const texture=new THREE.CanvasTexture(textureCanvas);texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=Math.min(renderer.capabilities.getMaxAnisotropy(),8);
+ fetch('/maps/land-50m.geojson').then(r=>r.ok?r.json():undefined).then((detail?:Land)=>{if(!detail)return;drawLand(detail);texture.needsUpdate=true;}).catch(()=>{});
  // Everything on the surface lives in one group so the cursor lean moves it together.
  const world=new THREE.Group();scene.add(world);
  const globe=new THREE.Mesh(new THREE.SphereGeometry(1,96,64),new THREE.MeshStandardMaterial({map:texture,roughness:1,metalness:0}));world.add(globe);

@@ -11,6 +11,6 @@
 - Three.js WebGL, CSS/DOM 사진 마커. 화면 밖에서는 렌더링 일시 중지. WebGL 실패 시 여행기 목록을 계속 사용할 수 있습니다.
 - 모션(2026-10-28, 사용자가 시안 G1 선택): 처음 열면 멀리서 돌아와 아시아 구도에 자리 잡는 등장 연출, 평소 천천히 자동 회전(조작하면 멈추고 5초 뒤 재개, 여행지를 선택한 동안은 멈춤), 가장자리 올리브색 대기 빛, 여행지마다 퍼지는 고리, 여행 순서(오래된 것부터)대로 그려지는 경로 선과 그 위를 오가는 작은 빛, 마우스 쪽으로 살짝 기우는 효과. 움직임 줄이기 설정에서는 회전·등장·고리·빛·기울기가 꺼지고 지구본 조작은 그대로 됩니다.
 
-지도 데이터: Natural Earth 1:110m land (public domain), `public/maps/land.geojson`. 출처 https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_land.geojson . 이 지도는 여행 탐색용 개략도이며 상세 행정경계/측량용이 아닙니다.
+지도 데이터: Natural Earth 1:110m land (public domain), `public/maps/land.geojson`. 처음에는 이 가벼운 지도로 그린 뒤, 1:50m land(`public/maps/land-50m.geojson`, 좌표를 소수 둘째 자리로 줄이고 속성을 뺀 것, 약 1MB·gzip 약 270KB)를 받아 다시 그립니다. 원본 https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_50m_land.geojson . 지도 이미지는 휴대폰 4096×2048, 마우스를 쓰는 큰 화면은 8192×4096(그래픽 카드가 허용할 때)입니다. iOS Safari는 캔버스 한 장을 약 1,670만 화소로 제한하므로 휴대폰에서 8192는 쓰지 않습니다. 출처 https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_land.geojson . 이 지도는 여행 탐색용 개략도이며 상세 행정경계/측량용이 아닙니다.
 
 지구본 스크립트는 홈에서만 로딩됩니다. 초기 Three.js 번들은 gzip 약 139KB로 기존 정적 홈보다 무거우며, 실제 기기의 성능 지표는 추가 측정이 필요합니다.
