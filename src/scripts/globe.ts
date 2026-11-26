@@ -13,7 +13,7 @@ export async function initGlobe(root:HTMLElement){
  const stage=root.querySelector<HTMLElement>('.globe-stage')!;const status=document.querySelector<HTMLElement>('[data-globe-status]')!;
  const pins:Pin[]=JSON.parse(root.dataset.pins||'[]');const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
  const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(35,1,.1,100);const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.setClearColor(0x000000,0);stage.prepend(renderer.domElement);renderer.domElement.setAttribute('aria-hidden','true');
- const controls=new OrbitControls(camera,renderer.domElement);Object.assign(controls,{enablePan:false,enableDamping:true,dampingFactor:.07,minDistance:1.35,maxDistance:5.2,enableZoom:false,rotateSpeed:.55,minPolarAngle:.12,maxPolarAngle:Math.PI-.12,autoRotate:!reduced,autoRotateSpeed:.45});controls.touches.TWO=THREE.TOUCH.DOLLY_ROTATE;
+ const controls=new OrbitControls(camera,renderer.domElement);Object.assign(controls,{enablePan:false,enableDamping:true,dampingFactor:.07,minDistance:1.55,maxDistance:5.2,enableZoom:false,rotateSpeed:.55,minPolarAngle:.12,maxPolarAngle:Math.PI-.12,autoRotate:!reduced,autoRotateSpeed:.45});controls.touches.TWO=THREE.TOUCH.DOLLY_ROTATE;
  const initial=position(24,95,3.65);
  // Intro: start far and a third of a turn away, then settle on the home view.
  camera.position.copy(reduced?initial:position(8,-10,7.5));controls.update();
@@ -64,7 +64,7 @@ export async function initGlobe(root:HTMLElement){
  document.querySelectorAll<HTMLButtonElement>('[data-globe-pin]').forEach(b=>b.addEventListener('click',()=>{const pin=pins.find(p=>p.id===b.dataset.globePin);if(pin)focus(position(pin.lat,pin.lng),pin);}));
  function reset(){target=initial.clone();targetDistance=initial.length();active='';status.textContent='지구본에서 마음이 가는 곳을 골라 보세요.';markers.forEach(m=>m.button.classList.remove('is-active'));resumeLater();}
  root.querySelector('[data-globe-reset]')!.addEventListener('click',reset);
- root.querySelectorAll<HTMLButtonElement>('[data-globe-zoom]').forEach(b=>b.addEventListener('click',()=>{pause();target=undefined;targetDistance=THREE.MathUtils.clamp(camera.position.length()*(b.dataset.globeZoom==='in'?.78:1.28),1.35,5.2);resumeLater();}));
+ root.querySelectorAll<HTMLButtonElement>('[data-globe-zoom]').forEach(b=>b.addEventListener('click',()=>{pause();target=undefined;targetDistance=THREE.MathUtils.clamp(camera.position.length()*(b.dataset.globeZoom==='in'?.78:1.28),1.55,5.2);resumeLater();}));
  controls.addEventListener('start',()=>{manipulating=true;pause();target=undefined;targetDistance=camera.position.length();});
  controls.addEventListener('end',()=>{manipulating=false;targetDistance=camera.position.length();resumeLater();});
  renderer.domElement.addEventListener('pointerdown',e=>{downX=e.clientX;downY=e.clientY;dragging=false;});
