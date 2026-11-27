@@ -43,8 +43,12 @@ export async function initGlobe(root:HTMLElement){
   fragmentShader:'uniform vec3 color;varying vec3 vN;varying vec3 vV;void main(){float f=pow(1.-abs(dot(vN,vV)),4.);gl_FragColor=vec4(color,f*.68);}',
   side:THREE.BackSide,transparent:true,depthWrite:false})));
  // Pins: a dot and a ring that pulses outward on the surface.
- const ringGeometry=new THREE.RingGeometry(.018,.024,48);const dotGeometry=new THREE.CircleGeometry(.009,24);const dotMaterial=new THREE.MeshBasicMaterial({color:0x4f594c,side:THREE.DoubleSide});
- const rings=pins.map((pin,i)=>{const p=position(pin.lat,pin.lng,1.006);const material=new THREE.MeshBasicMaterial({color:0x4f594c,transparent:true,side:THREE.DoubleSide,depthWrite:false});const ring=new THREE.Mesh(ringGeometry,material);const dot=new THREE.Mesh(dotGeometry,dotMaterial);for(const m of [ring,dot]){m.position.copy(p);m.lookAt(p.clone().multiplyScalar(2));world.add(m);}return{ring,material,phase:i*.33};});
+ // Each ring is drawn by a shader on a square that grows across the surface, with the line itself kept a
+ // fixed number of screen pixels wide. A scaled ring mesh would thicken as it spreads and as the camera zooms in.
+ const ringGeometry=new THREE.PlaneGeometry(2,2);const ringLinePx=1.6*renderer.getPixelRatio();
+ const ringVertex='varying vec2 vUv;void main(){vUv=uv*2.-1.;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}';
+ const ringFragment='uniform vec3 color;uniform float opacity;uniform float linePx;varying vec2 vUv;void main(){float d=length(vUv);float aa=fwidth(d);float c=1.-(linePx*.5+1.)*aa;float a=clamp(1.-(abs(d-c)-linePx*.5*aa)/aa,0.,1.);if(a<=0.)discard;gl_FragColor=vec4(color,a*opacity);}';const dotGeometry=new THREE.CircleGeometry(.009,24);const dotMaterial=new THREE.MeshBasicMaterial({color:0x4f594c,side:THREE.DoubleSide});
+ const rings=pins.map((pin,i)=>{const p=position(pin.lat,pin.lng,1.006);const material=new THREE.ShaderMaterial({uniforms:{color:{value:new THREE.Color(0x4f594c)},opacity:{value:0},linePx:{value:ringLinePx}},vertexShader:ringVertex,fragmentShader:ringFragment,transparent:true,side:THREE.DoubleSide,depthWrite:false});const ring=new THREE.Mesh(ringGeometry,material);const dot=new THREE.Mesh(dotGeometry,dotMaterial);for(const m of [ring,dot]){m.position.copy(p);m.lookAt(p.clone().multiplyScalar(2));world.add(m);}return{ring,material,phase:i*.33};});
  // Journey arcs in travel order (oldest first), drawn one after another; a comet runs along each once drawn.
  const order=[...pins].reverse();const arcMaterial=new THREE.LineBasicMaterial({color:0x4f594c,transparent:true,opacity:.75});const cometGeometry=new THREE.SphereGeometry(.009,16,12);const cometMaterial=new THREE.MeshBasicMaterial({color:0x4f594c});
  const arcs=order.slice(1).map((pin,i)=>{const a=position(order[i].lat,order[i].lng),b=position(pin.lat,pin.lng);const height=.12+a.angleTo(b)*.18,n=160;
@@ -87,7 +91,7 @@ export async function initGlobe(root:HTMLElement){
   if(target){const k=reduced?1:.055;const d=THREE.MathUtils.lerp(camera.position.length(),target.length(),k);camera.position.normalize().lerp(target.clone().normalize(),k).normalize().multiplyScalar(d);if(camera.position.distanceTo(target)<.003){camera.position.copy(target);target=undefined;}}
   else if(!manipulating){const distance=camera.position.length();if(Math.abs(targetDistance-distance)>.002)camera.position.multiplyScalar(THREE.MathUtils.lerp(distance,targetDistance,reduced?1:.12)/distance);}
   world.rotation.x+=(lean.x-world.rotation.x)*.06;world.rotation.y+=(lean.y-world.rotation.y)*.06;
-  rings.forEach(r=>{const p=reduced?.4:((t*.55+r.phase)%1);r.ring.scale.setScalar(1+easeOut(p)*2.4);r.material.opacity=(1-p)*.85;});
+  rings.forEach(r=>{const p=reduced?.4:((t*.55+r.phase)%1);r.ring.scale.setScalar(.024*(1+easeOut(p)*2.4));r.material.uniforms.opacity.value=(1-p)*.85;});
   arcs.forEach((a,i)=>{const want=now>arcStart+i*900?a.n+1:0;a.drawn=reduced?want:a.drawn+(want-a.drawn)*.06;a.geometry.setDrawRange(0,Math.round(a.drawn));a.comet.visible=!reduced&&a.drawn>a.n-1;if(a.comet.visible)a.comet.position.copy(a.points[Math.floor(((t*.25+i*.37)%1)*a.n)]);});
   // Drag and auto-rotation turn the globe by an angle, so close up the same swipe would sweep the surface
   // several times faster. Scale both by the camera's height above the surface relative to the opening view.
