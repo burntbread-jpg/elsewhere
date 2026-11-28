@@ -26,7 +26,7 @@
 | 003 | `003-mongolia-dundgovi.mdx` | 둔드고비 | 별의 후예 / Descendants of the Stars, Dundgovi | 2025. 08. | 몽골 연재 ②. 커버는 별 사진, 낮 사진은 본문 안 |
 | 004 | `004-china-beijing.mdx` | 천단 | 모든 답은 위에 있다 / All Answers Lie Above, Beijing | 2025. 02. | |
 | 005 | `005-france-paris-louvre.mdx` | 루브르 | 군중이 사라진 밤 / The Night the Crowd Was Gone, Paris | 2022. 01. | 파리는 앞으로 여러 편 예정 |
-| 006 | `006-japan-tokyo-ginza.mdx` | 동경 이야기 | 색이 빠진 자리 / Where the Colour Fell Away, Ginza | 2026. 05. | 도쿄는 앞으로 여러 편 예정. 사진은 사용자가 흑백으로 변환 |
+| 006 | `006-japan-tokyo-ginza.mdx` | 긴자 | 색이 빠진 자리 / Where the Colour Fell Away, Ginza | 2026. 05. | 도쿄는 앞으로 여러 편 예정. 사진은 사용자가 흑백으로 변환 |
 | 007 | `007-italy-cefalu.mdx` | 체팔루 | 신화보다 설화 / Folktale over Myth, Cefalù | 2019. 12. — 2020. 01. | 시칠리아 연재 ②. 이 편만 연재 연결 문장 없이 시작(사용자 결정) |
 | 008 | `008-japan-kyoto-fushimi-inari.mdx` | 후시미 이나리 | 모든 사람은 꿈을 꾼다 / All Men Dream, Kyoto | 2018. 08. | 사진 색감은 원본(시안 3개 중 원본 선택) |
 | 009 | `009-australia-newcastle.mdx` | 뉴캐슬 | 심심한 천국 / A Quiet Kind of Paradise, Newcastle | 2018. 12. | 호주 연재 ① |
